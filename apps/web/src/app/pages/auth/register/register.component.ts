@@ -10,6 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { TranslatePipe } from '@ngx-translate/core';
 import { AuthService } from '../../../core/services/auth.service';
 import { NotificationService } from '../../../core/services/notification.service';
+import { mapAuthError } from '../../../core/utils/supabase-error.util';
 
 @Component({
   selector: 'app-register',
@@ -67,7 +68,7 @@ export class RegisterComponent {
     });
 
     if (error) {
-      this.error.set(error.message);
+      this.error.set(mapAuthError(error));
     } else {
       this.notify.success('NOTIFY.REGISTER_SUCCESS');
     }

@@ -19,8 +19,7 @@
       "PASSWORD": "Passwort",
       "SUBMIT": "Anmelden",
       "LOADING": "Wird angemeldet…",
-      "REGISTER_HINT": "Noch kein Konto?",
-      "ERROR_INVALID": "Ungültige E-Mail-Adresse oder falsches Passwort."
+      "REGISTER_HINT": "Noch kein Konto?"
     },
     "REGISTER": {
       "TITLE": "Registrieren",
@@ -35,8 +34,7 @@
       "ROLE_GIVER": "Jobs anbieten",
       "SUBMIT": "Konto erstellen",
       "LOADING": "Wird registriert…",
-      "LOGIN_HINT": "Bereits registriert?",
-      "ERROR_GENERIC": "Registrierung fehlgeschlagen. Bitte versuche es erneut."
+      "LOGIN_HINT": "Bereits registriert?"
     }
   },
   "COMMON": {
@@ -83,7 +81,21 @@
     "REGISTER_SUCCESS": "Konto erfolgreich erstellt. Herzlich willkommen!",
     "PROFILE_SAVE_SUCCESS": "Profil erfolgreich gespeichert.",
     "PROFILE_SAVE_ERROR": "Speichern fehlgeschlagen. Bitte versuche es erneut.",
-    "AVATAR_UPLOAD_SUCCESS": "Profilbild erfolgreich hochgeladen."
+    "AVATAR_UPLOAD_SUCCESS": "Profilbild erfolgreich hochgeladen.",
+    "SESSION_EXPIRED": "Deine Sitzung ist abgelaufen. Bitte melde dich erneut an."
+  },
+  "AUTH_ERROR": {
+    "INVALID_CREDENTIALS": "Ungültige E-Mail-Adresse oder falsches Passwort.",
+    "EMAIL_NOT_CONFIRMED": "Bitte bestätige zuerst deine E-Mail-Adresse.",
+    "USER_ALREADY_EXISTS": "Diese E-Mail-Adresse ist bereits registriert.",
+    "WEAK_PASSWORD": "Das Passwort ist zu schwach. Bitte wähle ein stärkeres.",
+    "RATE_LIMIT": "Zu viele Versuche. Bitte warte kurz und versuche es erneut.",
+    "EMAIL_INVALID": "Ungültige E-Mail-Adresse.",
+    "SIGNUP_DISABLED": "Registrierungen sind derzeit deaktiviert.",
+    "NETWORK": "Netzwerkfehler. Bitte überprüfe deine Verbindung.",
+    "DUPLICATE": "Ein Eintrag mit diesen Daten existiert bereits.",
+    "FORBIDDEN": "Keine Berechtigung für diese Aktion.",
+    "UNKNOWN": "Ein unbekannter Fehler ist aufgetreten. Bitte versuche es erneut."
   },
   "PROFILE": {
     "TITLE": "Mein Profil",
