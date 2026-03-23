@@ -9,6 +9,7 @@ command -v docker >/dev/null || { echo "ERROR: Docker not found. Start Docker De
 
 echo "==> Installing Angular app dependencies..."
 npm ci --prefix apps/web
+npm i
 
 echo "==> Starting Supabase local stack..."
 supabase start
