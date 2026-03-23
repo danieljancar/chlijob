@@ -2,12 +2,13 @@
 
 ## Branching
 
-| Branch                  | Purpose                                                   |
-| ----------------------- | --------------------------------------------------------- |
-| `develop`               | Default branch — all feature/fix PRs target here          |
-| `master`                | Staging branch — reflects what is (or will be) on staging |
-| `feature/<description>` | New features                                              |
-| `fix/<description>`     | Bug fixes                                                 |
+| Branch                  | Purpose                                                     |
+| ----------------------- | ----------------------------------------------------------- |
+| `develop`               | Default branch — all feature/fix PRs target here            |
+| `staging`               | Pre-production — promoted from `develop` when ready for QA  |
+| `master`                | Production — promoted from `staging` when ready for release |
+| `feature/<description>` | New features                                                |
+| `fix/<description>`     | Bug fixes                                                   |
 
 ## Workflow
 

@@ -1,0 +1,42 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - staging
+      - master
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Read version
+        id: version
+        run: |
+          VERSION=$(node -p "require('./apps/web/package.json').version")
+          echo "value=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Resolve tag and release type
+        id: meta
+        run: |
+          if [ "${{ github.ref_name }}" = "master" ]; then
+            echo "tag=v${{ steps.version.outputs.value }}" >> $GITHUB_OUTPUT
+            echo "name=v${{ steps.version.outputs.value }}" >> $GITHUB_OUTPUT
+            echo "prerelease=false" >> $GITHUB_OUTPUT
+          else
+            echo "tag=v${{ steps.version.outputs.value }}-beta.${{ github.run_number }}" >> $GITHUB_OUTPUT
+            echo "name=v${{ steps.version.outputs.value }}-beta.${{ github.run_number }}" >> $GITHUB_OUTPUT
+            echo "prerelease=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.meta.outputs.tag }}
+          prerelease: ${{ steps.meta.outputs.prerelease }}
+          generate_release_notes: true

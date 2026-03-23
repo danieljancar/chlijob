@@ -52,7 +52,7 @@ export class AppLayoutComponent {
   protected navItems: NavItem[] = [
     { labelKey: 'NAV.HOME', icon: 'home', route: '/app' },
     { labelKey: 'NAV.MY_JOBS', icon: 'cases', route: '/app/jobs' },
-    { labelKey: 'NAV.MY_ORDERS', icon: 'receipt_long', route: '/app/orders' },
+    { labelKey: 'NAV.CONTRACTS', icon: 'receipt_long', route: '/app/contracts' },
     { labelKey: 'NAV.SEARCH', icon: 'search', route: '/app/search' },
   ];
 }

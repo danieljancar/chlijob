@@ -8,7 +8,7 @@
   <div class="nav-actions">
     @if (!auth.loading()) {
       @if (auth.isAuthenticated()) {
-        <a routerLink="/app/profile" class="nav-avatar-link">
+        <a routerLink="/app/" class="nav-avatar-link">
           <app-user-avatar
             [avatarUrl]="auth.avatarUrl()"
             [initials]="auth.initials()"

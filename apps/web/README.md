@@ -1,59 +1,64 @@
-# Web
+# chlijobs — Web
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.1.
+Angular 21 frontend for the chlijobs platform.
 
-## Development server
+## Stack
 
-To start a local development server, run:
+- **Angular 21** — standalone components, signals, OnPush change detection
+- **Angular Material M3** — single-palette theming (`mat.$violet-palette`)
+- **Supabase** — Auth, Postgres, Storage
+- **@ngx-translate/core** — i18n
 
-```bash
-ng serve
-```
+## Development
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+### Prerequisites
 
-## Code scaffolding
+- Node.js 20+
+- npm
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+### Install
 
 ```bash
-ng generate --help
+npm install
 ```
 
-## Building
-
-To build the project run:
+### Run
 
 ```bash
-ng build
+npm start
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Open `http://localhost:4200`.
 
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+### Lint / Test / Build
 
 ```bash
-ng test
+npm run lint
+npm run test -- --watch=false --browsers=ChromeHeadless
+npm run build -- --configuration=production
 ```
 
-## Running end-to-end tests
+## Project Structure
 
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
+```
+src/app/
+├── core/           # Guards, models, services (auth, notification, supabase)
+├── layout/
+│   ├── public/     # PublicLayoutComponent — navbar + footer wrapping public routes
+│   └── app/        # AppLayoutComponent — sidenav shell for authenticated routes
+├── pages/
+│   ├── public/     # Home, About, Legal (Terms, Privacy)
+│   ├── auth/       # Login, Register
+│   └── app/        # Dashboard, Jobs, Orders, Search, Profile
+└── shared/
+    └── components/ # Reusable: UserAvatarComponent, ImageUploaderComponent
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## Commit Convention
 
-## Additional Resources
+[Conventional Commits](https://www.conventionalcommits.org/) — enforced via commitlint + Husky.
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+```
+feat: add job filter
+fix: correct avatar upload path
+```

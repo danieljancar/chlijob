@@ -7,7 +7,7 @@
     "HOME": "Home",
     "ABOUT": "Über uns",
     "MY_JOBS": "Meine Jobs",
-    "MY_ORDERS": "Meine Aufträge",
+    "CONTRACTS": "Aufträge",
     "SEARCH": "Suchen",
     "TO_APP": "Zur App"
   },
@@ -58,8 +58,8 @@
   "JOBS": {
     "TITLE": "Meine Jobs"
   },
-  "ORDERS": {
-    "TITLE": "Meine Aufträge"
+  "CONTRACTS": {
+    "TITLE": "Aufträge"
   },
   "SEARCH": {
     "TITLE": "Suchen"

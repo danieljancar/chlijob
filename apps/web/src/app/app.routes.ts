@@ -71,9 +71,9 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/app/jobs/jobs.component').then((m) => m.JobsComponent),
       },
       {
-        path: 'orders',
+        path: 'contracts',
         loadComponent: () =>
-          import('./pages/app/orders/orders.component').then((m) => m.OrdersComponent),
+          import('./pages/app/contracts/contracts.component').then((m) => m.ContractsComponent),
       },
       {
         path: 'search',

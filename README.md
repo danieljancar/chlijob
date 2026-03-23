@@ -36,10 +36,28 @@ Supabase Studio → http://localhost:54323
 
 ## Branches
 
-| Branch    | Purpose                           |
-| --------- | --------------------------------- |
-| `develop` | Default — all PRs target here     |
-| `master`  | Staging — promoted from `develop` |
+| Branch    | Purpose                                     | Default |
+| --------- | ------------------------------------------- | ------- |
+| `develop` | Active development — all PRs target here    | Yes     |
+| `staging` | Pre-production / QA — promoted from develop | No      |
+| `master`  | Production — promoted from staging          | No      |
+
+**Flow:** `develop` → `staging` → `master`
+
+### CI
+
+Runs on every PR targeting `develop`, `staging`, or `master`: lint → test → build (production).
+
+### Releases
+
+Triggered automatically on push to `staging` or `master`:
+
+| Branch    | Tag                            | Type         |
+| --------- | ------------------------------ | ------------ |
+| `staging` | `v{version}-beta.{run_number}` | Pre-release  |
+| `master`  | `v{version}`                   | Full release |
+
+Version is read from `apps/web/package.json`. Release notes are auto-generated from commit history.
 
 ## Docs
 
