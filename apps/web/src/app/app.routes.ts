@@ -1,34 +1,90 @@
 import { Routes } from '@angular/router';
 import { authGuard, guestGuard } from './core/guards/auth.guard';
-import { ShellComponent } from './shell/shell.component';
-import { LoginComponent } from './features/auth/login/login.component';
-import { RegisterComponent } from './features/auth/register/register.component';
-import { HomeComponent } from './features/home/home.component';
-import { JobsComponent } from './features/jobs/jobs.component';
-import { OrdersComponent } from './features/orders/orders.component';
-import { ProfileComponent } from './features/profile/profile.component';
-import { SearchComponent } from './features/search/search.component';
+import { PublicLayoutComponent } from './layout/public/public-layout.component';
+import { AppLayoutComponent } from './layout/app/app-layout.component';
 
 export const routes: Routes = [
   {
-    path: 'auth',
-    canActivate: [guestGuard],
+    path: '',
+    component: PublicLayoutComponent,
     children: [
-      { path: 'login', component: LoginComponent },
-      { path: 'register', component: RegisterComponent },
-      { path: '', redirectTo: 'login', pathMatch: 'full' },
+      {
+        path: '',
+        pathMatch: 'full',
+        loadComponent: () =>
+          import('./pages/public/home/home.component').then((m) => m.HomeComponent),
+      },
+      {
+        path: 'about',
+        loadComponent: () =>
+          import('./pages/public/about/about.component').then((m) => m.AboutComponent),
+      },
+      {
+        path: 'legal',
+        children: [
+          {
+            path: 'terms',
+            loadComponent: () =>
+              import('./pages/public/legal/terms/terms.component').then((m) => m.TermsComponent),
+          },
+          {
+            path: 'privacy',
+            loadComponent: () =>
+              import('./pages/public/legal/privacy/privacy.component').then(
+                (m) => m.PrivacyComponent,
+              ),
+          },
+        ],
+      },
+      {
+        path: 'auth',
+        canActivate: [guestGuard],
+        children: [
+          {
+            path: 'login',
+            loadComponent: () =>
+              import('./pages/auth/login/login.component').then((m) => m.LoginComponent),
+          },
+          {
+            path: 'register',
+            loadComponent: () =>
+              import('./pages/auth/register/register.component').then((m) => m.RegisterComponent),
+          },
+          { path: '', redirectTo: 'login', pathMatch: 'full' },
+        ],
+      },
     ],
   },
   {
-    path: '',
-    component: ShellComponent,
+    path: 'app',
+    component: AppLayoutComponent,
     canActivate: [authGuard],
     children: [
-      { path: '', component: HomeComponent },
-      { path: 'jobs', component: JobsComponent },
-      { path: 'orders', component: OrdersComponent },
-      { path: 'search', component: SearchComponent },
-      { path: 'profile', component: ProfileComponent },
+      {
+        path: '',
+        pathMatch: 'full',
+        loadComponent: () =>
+          import('./pages/app/dashboard/dashboard.component').then((m) => m.DashboardComponent),
+      },
+      {
+        path: 'jobs',
+        loadComponent: () => import('./pages/app/jobs/jobs.component').then((m) => m.JobsComponent),
+      },
+      {
+        path: 'orders',
+        loadComponent: () =>
+          import('./pages/app/orders/orders.component').then((m) => m.OrdersComponent),
+      },
+      {
+        path: 'search',
+        loadComponent: () =>
+          import('./pages/app/search/search.component').then((m) => m.SearchComponent),
+      },
+      {
+        path: 'profile',
+        loadComponent: () =>
+          import('./pages/app/profile/profile.component').then((m) => m.ProfileComponent),
+      },
     ],
   },
   { path: '**', redirectTo: '' },

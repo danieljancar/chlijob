@@ -5,9 +5,11 @@
   },
   "NAV": {
     "HOME": "Home",
+    "ABOUT": "Über uns",
     "MY_JOBS": "Meine Jobs",
     "MY_ORDERS": "Meine Aufträge",
-    "SEARCH": "Suchen"
+    "SEARCH": "Suchen",
+    "TO_APP": "Zur App"
   },
   "AUTH": {
     "LOGIN": {
@@ -45,7 +47,13 @@
     "LOADING": "Wird geladen…"
   },
   "HOME": {
-    "TITLE": "Home"
+    "HERO_TITLE": "Kurze Jobs. Einfach finden.",
+    "HERO_SUBTITLE": "Verbinde dich mit Menschen in deiner Nähe. Egal ob du kurze Jobs anbietest oder suchst.",
+    "CTA_REGISTER": "Jetzt kostenlos starten",
+    "CTA_LOGIN": "Anmelden"
+  },
+  "DASHBOARD": {
+    "TITLE": "Dashboard"
   },
   "JOBS": {
     "TITLE": "Meine Jobs"
@@ -55,6 +63,19 @@
   },
   "SEARCH": {
     "TITLE": "Suchen"
+  },
+  "ABOUT": {
+    "TITLE": "Über uns"
+  },
+  "LEGAL": {
+    "TERMS_TITLE": "Allgemeine Geschäftsbedingungen",
+    "PRIVACY_TITLE": "Datenschutzerklärung",
+    "PLACEHOLDER": "Dieser Inhalt wird bald verfügbar sein."
+  },
+  "FOOTER": {
+    "ABOUT": "Über uns",
+    "TERMS": "AGB",
+    "PRIVACY": "Datenschutz"
   },
   "NOTIFY": {
     "LOGIN_SUCCESS": "Willkommen zurück!",

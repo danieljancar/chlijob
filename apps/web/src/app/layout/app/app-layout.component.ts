@@ -10,8 +10,8 @@ import { MatDividerModule } from '@angular/material/divider';
 import { TranslatePipe } from '@ngx-translate/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
-import { AuthService } from '../core/services/auth.service';
-import { UserAvatarComponent } from '../shared/components/user-avatar/user-avatar.component';
+import { AuthService } from '../../core/services/auth.service';
+import { UserAvatarComponent } from '../../shared/components/user-avatar/user-avatar.component';
 
 interface NavItem {
   labelKey: string;
@@ -20,7 +20,7 @@ interface NavItem {
 }
 
 @Component({
-  selector: 'app-shell',
+  selector: 'app-app-layout',
   imports: [
     RouterOutlet,
     RouterLink,
@@ -34,11 +34,11 @@ interface NavItem {
     TranslatePipe,
     UserAvatarComponent,
   ],
-  templateUrl: './shell.component.html',
-  styleUrl: './shell.component.scss',
+  templateUrl: './app-layout.component.html',
+  styleUrl: './app-layout.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ShellComponent {
+export class AppLayoutComponent {
   @ViewChild('sidenav') sidenav!: MatSidenav;
 
   protected auth = inject(AuthService);
@@ -50,9 +50,9 @@ export class ShellComponent {
   );
 
   protected navItems: NavItem[] = [
-    { labelKey: 'NAV.HOME', icon: 'home', route: '/' },
-    { labelKey: 'NAV.MY_JOBS', icon: 'cases', route: '/jobs' },
-    { labelKey: 'NAV.MY_ORDERS', icon: 'receipt_long', route: '/orders' },
-    { labelKey: 'NAV.SEARCH', icon: 'search', route: '/search' },
+    { labelKey: 'NAV.HOME', icon: 'home', route: '/app' },
+    { labelKey: 'NAV.MY_JOBS', icon: 'cases', route: '/app/jobs' },
+    { labelKey: 'NAV.MY_ORDERS', icon: 'receipt_long', route: '/app/orders' },
+    { labelKey: 'NAV.SEARCH', icon: 'search', route: '/app/search' },
   ];
 }

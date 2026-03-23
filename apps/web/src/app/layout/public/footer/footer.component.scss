@@ -1,0 +1,36 @@
+.footer {
+  border-top: 1px solid var(--mat-sys-outline-variant);
+  background: var(--mat-sys-surface);
+}
+
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.footer-brand {
+  font-size: 13px;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.footer-links {
+  display: flex;
+  gap: 20px;
+
+  a {
+    font-size: 13px;
+    color: var(--mat-sys-on-surface-variant);
+    text-decoration: none;
+
+    &:hover {
+      color: var(--mat-sys-on-surface);
+      text-decoration: underline;
+    }
+  }
+}

@@ -1,0 +1,23 @@
+<nav class="navbar">
+  <a routerLink="/" class="nav-logo">
+    <img src="/logo_horizontal.png" alt="ChliJob." class="logo-img" />
+  </a>
+
+  <span class="nav-spacer"></span>
+
+  <div class="nav-actions">
+    @if (!auth.loading()) {
+      @if (auth.isAuthenticated()) {
+        <a routerLink="/app/profile" class="nav-avatar-link">
+          <app-user-avatar
+            [avatarUrl]="auth.avatarUrl()"
+            [initials]="auth.initials()"
+            [size]="34"
+          />
+        </a>
+      } @else {
+        <a routerLink="/auth/register" mat-flat-button>{{ 'AUTH.REGISTER.TITLE' | translate }}</a>
+      }
+    }
+  </div>
+</nav>

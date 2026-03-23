@@ -91,7 +91,7 @@ export class AuthService {
 
   async signIn(email: string, password: string): Promise<{ error: AuthError | null }> {
     const { error } = await this.supabase.client.auth.signInWithPassword({ email, password });
-    if (!error) await this.router.navigate(['/']);
+    if (!error) await this.router.navigate(['/app']);
     return { error };
   }
 
@@ -108,13 +108,13 @@ export class AuthService {
       ...data,
     });
 
-    if (!profileError) await this.router.navigate(['/']);
+    if (!profileError) await this.router.navigate(['/app']);
     return { error: profileError as unknown as AuthError };
   }
 
   async signOut(): Promise<void> {
     await this.supabase.client.auth.signOut();
     this.profile.set(null);
-    await this.router.navigate(['/auth/login']);
+    await this.router.navigate(['/']);
   }
 }

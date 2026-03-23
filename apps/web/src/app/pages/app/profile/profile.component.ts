@@ -7,10 +7,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { TranslatePipe } from '@ngx-translate/core';
-import { AuthService } from '../../core/services/auth.service';
-import { NotificationService } from '../../core/services/notification.service';
-import { ImageUploaderComponent, ImageUploadResult } from '../../shared/components/image-uploader';
-import { UserAvatarComponent } from '../../shared/components/user-avatar/user-avatar.component';
+import { AuthService } from '../../../core/services/auth.service';
+import { NotificationService } from '../../../core/services/notification.service';
+import {
+  ImageUploaderComponent,
+  ImageUploadResult,
+} from '../../../shared/components/image-uploader';
+import { UserAvatarComponent } from '../../../shared/components/user-avatar/user-avatar.component';
 
 @Component({
   selector: 'app-profile',
@@ -71,7 +74,6 @@ export class ProfileComponent {
     const { error } = await this.auth.updateProfile({
       first_name: v.first_name.trim(),
       last_name: v.last_name.trim(),
-      // Convert empty strings to null for optional fields
       phone: v.phone.trim() || null,
       location: v.location.trim() || null,
       bio: v.bio.trim() || null,

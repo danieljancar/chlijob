@@ -6,7 +6,7 @@
     class="sidenav"
   >
     <div class="sidenav-inner">
-      <a routerLink="/" class="sidenav-logo" (click)="isHandset() && sidenav.close()">
+      <a routerLink="/app" class="sidenav-logo" (click)="isHandset() && sidenav.close()">
         <img src="/logo_horizontal.png" alt="ChliJob." class="logo-img" />
       </a>
       <p class="sidenav-tagline">{{ 'APP.TAGLINE' | translate }}</p>
@@ -19,7 +19,7 @@
             mat-list-item
             [routerLink]="item.route"
             routerLinkActive="active-link"
-            [routerLinkActiveOptions]="{ exact: item.route === '/' }"
+            [routerLinkActiveOptions]="{ exact: item.route === '/app' }"
             (click)="isHandset() && sidenav.close()"
           >
             <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
@@ -30,7 +30,7 @@
 
       <div class="sidenav-spacer"></div>
 
-      <a routerLink="/profile" class="user-card" (click)="isHandset() && sidenav.close()">
+      <a routerLink="/app/profile" class="user-card" (click)="isHandset() && sidenav.close()">
         <app-user-avatar [avatarUrl]="auth.avatarUrl()" [initials]="auth.initials()" [size]="36" />
         <div class="user-info">
           <span class="user-name">{{ auth.fullName() }}</span>
@@ -54,7 +54,7 @@
         </button>
       }
       <span class="toolbar-spacer"></span>
-      <a routerLink="/profile" class="toolbar-user-btn" aria-label="User account">
+      <a routerLink="/app/profile" class="toolbar-user-btn" aria-label="User account">
         <app-user-avatar [avatarUrl]="auth.avatarUrl()" [initials]="auth.initials()" [size]="36" />
       </a>
     </mat-toolbar>

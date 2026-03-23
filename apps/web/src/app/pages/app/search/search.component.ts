@@ -2,9 +2,10 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-home',
+  selector: 'app-search',
+  standalone: true,
   imports: [TranslatePipe],
-  template: `<h2>{{ 'HOME.TITLE' | translate }}</h2>`,
+  template: `<h2>{{ 'SEARCH.TITLE' | translate }}</h2>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HomeComponent {}
+export class SearchComponent {}

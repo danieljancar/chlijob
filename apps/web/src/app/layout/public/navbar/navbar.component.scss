@@ -1,0 +1,44 @@
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  padding: 15px 16px;
+  height: auto;
+  background: var(--mat-sys-surface);
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+
+  .logo-img {
+    height: 40px;
+    width: auto;
+    display: block;
+  }
+}
+
+.nav-spacer {
+  flex: 1;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+
+  a {
+    text-decoration: none;
+  }
+}
+
+.nav-avatar-link {
+  display: flex;
+  align-items: center;
+  border-radius: 50%;
+  line-height: 0;
+}

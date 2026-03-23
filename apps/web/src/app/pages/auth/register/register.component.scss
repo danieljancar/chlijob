@@ -1,15 +1,14 @@
 .auth-page {
-  min-height: 100vh;
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--mat-sys-surface-container-lowest);
-  padding: 24px;
+  padding: 32px 24px;
 }
 
 .auth-card {
   width: 100%;
-  max-width: 400px;
+  max-width: 480px;
   background: var(--mat-sys-surface);
   border-radius: 24px;
   padding: 40px 36px;
@@ -17,16 +16,6 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-}
-
-.auth-logo {
-  margin-bottom: 8px;
-
-  .logo-img {
-    height: 70px;
-    width: auto;
-    display: block;
-  }
 }
 
 .auth-title {
@@ -47,8 +36,38 @@ form {
   gap: 4px;
 }
 
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+
+  mat-form-field {
+    width: 100%;
+  }
+}
+
 .full-width {
   width: 100%;
+}
+
+.role-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 4px 0;
+}
+
+.role-label {
+  font-size: 13px;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.role-toggle {
+  width: 100%;
+
+  mat-button-toggle {
+    flex: 1;
+  }
 }
 
 .submit-btn {
