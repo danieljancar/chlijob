@@ -2,15 +2,8 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthError, Session } from '@supabase/supabase-js';
 import { PostgrestError } from '@supabase/postgrest-js';
-import { Profile, PreferredRole } from '../models/profile.model';
+import type { Profile, ProfileUpdate, RegisterData } from '../types';
 import { SupabaseService } from './supabase.service';
-
-export interface RegisterData {
-  first_name: string;
-  last_name: string;
-  birthday: string;
-  preferred_role: PreferredRole;
-}
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -65,18 +58,17 @@ export class AuthService {
       .eq('id', userId)
       .single();
     if (!error && data) {
-      this.profile.set(data as Profile);
+      this.profile.set(data);
     }
   }
 
-  async updateProfile(
-    data: Partial<Omit<Profile, 'id' | 'created_at' | 'updated_at'>>,
-  ): Promise<{ error: PostgrestError | null }> {
+  async updateProfile(data: ProfileUpdate): Promise<{ error: PostgrestError | null }> {
     const session = this.session();
-    if (!session)
+    if (!session) {
       return {
         error: { message: 'Not authenticated', details: '', hint: '', code: '' } as PostgrestError,
       };
+    }
 
     const { error } = await this.supabase.client
       .from('profiles')

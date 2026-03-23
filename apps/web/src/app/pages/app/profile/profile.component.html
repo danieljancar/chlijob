@@ -28,30 +28,51 @@
 
     <form [formGroup]="form" (ngSubmit)="save()" class="profile-form">
       <div class="form-row">
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
           <mat-label>{{ 'PROFILE.FIRST_NAME' | translate }}</mat-label>
           <input matInput formControlName="first_name" autocomplete="given-name" />
+          @if (form.controls.first_name.hasError('required')) {
+            <mat-error>{{ 'VALIDATION.REQUIRED' | translate }}</mat-error>
+          }
         </mat-form-field>
 
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
           <mat-label>{{ 'PROFILE.LAST_NAME' | translate }}</mat-label>
           <input matInput formControlName="last_name" autocomplete="family-name" />
+          @if (form.controls.last_name.hasError('required')) {
+            <mat-error>{{ 'VALIDATION.REQUIRED' | translate }}</mat-error>
+          }
         </mat-form-field>
       </div>
 
-      <mat-form-field appearance="outline" class="full-width">
+      <mat-form-field appearance="outline" subscriptSizing="dynamic" class="full-width">
         <mat-label>{{ 'PROFILE.PHONE' | translate }}</mat-label>
-        <mat-icon matSuffix>phone</mat-icon>
-        <input matInput formControlName="phone" type="tel" autocomplete="tel" />
+        <span matTextPrefix>+41&nbsp;</span>
+        <input
+          matInput
+          appSwissPhone
+          formControlName="phone"
+          type="tel"
+          autocomplete="tel"
+          inputmode="tel"
+          placeholder="79 999 99 99"
+        />
+        @if (form.controls.phone.hasError('swissPhone')) {
+          <mat-error>{{ 'PROFILE.PHONE_INVALID' | translate }}</mat-error>
+        }
       </mat-form-field>
 
-      <mat-form-field appearance="outline" class="full-width">
+      <mat-form-field appearance="outline" subscriptSizing="dynamic" class="full-width">
         <mat-label>{{ 'PROFILE.LOCATION' | translate }}</mat-label>
-        <mat-icon matSuffix>location_on</mat-icon>
-        <input matInput formControlName="location" autocomplete="address-level2" />
+        <mat-select formControlName="location">
+          <mat-option value="">—</mat-option>
+          @for (canton of cantons; track canton.code) {
+            <mat-option [value]="canton.name">{{ canton.name }}</mat-option>
+          }
+        </mat-select>
       </mat-form-field>
 
-      <mat-form-field appearance="outline" class="full-width">
+      <mat-form-field appearance="outline" subscriptSizing="dynamic" class="full-width">
         <mat-label>{{ 'PROFILE.BIO' | translate }}</mat-label>
         <textarea matInput formControlName="bio" rows="3" style="resize: none"></textarea>
       </mat-form-field>

@@ -6,14 +6,19 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { TranslatePipe } from '@ngx-translate/core';
 import { AuthService } from '../../../core/services/auth.service';
 import { NotificationService } from '../../../core/services/notification.service';
+import { SWISS_CANTONS } from '../../../core/types';
 import {
   ImageUploaderComponent,
   ImageUploadResult,
 } from '../../../shared/components/image-uploader';
-import { UserAvatarComponent } from '../../../shared/components/user-avatar/user-avatar.component';
+import {
+  SwissPhoneDirective,
+  swissPhoneValidator,
+} from '../../../shared/directives/swiss-phone.directive';
 
 @Component({
   selector: 'app-profile',
@@ -26,8 +31,10 @@ import { UserAvatarComponent } from '../../../shared/components/user-avatar/user
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
+    MatSelectModule,
     TranslatePipe,
     ImageUploaderComponent,
+    SwissPhoneDirective,
   ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
@@ -36,6 +43,7 @@ import { UserAvatarComponent } from '../../../shared/components/user-avatar/user
 export class ProfileComponent {
   protected auth = inject(AuthService);
   protected notify = inject(NotificationService);
+  protected readonly cantons = SWISS_CANTONS;
 
   protected saving = signal(false);
   private formPopulated = signal(false);
@@ -43,7 +51,7 @@ export class ProfileComponent {
   protected form = new FormGroup({
     first_name: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
     last_name: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
-    phone: new FormControl('', { nonNullable: true }),
+    phone: new FormControl('', { nonNullable: true, validators: [swissPhoneValidator] }),
     location: new FormControl('', { nonNullable: true }),
     bio: new FormControl('', { nonNullable: true }),
   });
@@ -74,7 +82,7 @@ export class ProfileComponent {
       first_name: v.first_name.trim(),
       last_name: v.last_name.trim(),
       phone: v.phone.trim() || null,
-      location: v.location.trim() || null,
+      location: v.location || null,
       bio: v.bio.trim() || null,
     });
 

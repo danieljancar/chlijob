@@ -92,13 +92,19 @@
     "FIRST_NAME": "Vorname",
     "LAST_NAME": "Nachname",
     "PHONE": "Telefon",
-    "LOCATION": "Standort",
+    "PHONE_INVALID": "Ungültige Nummer. Format: 79 123 45 67",
+    "LOCATION": "Kanton",
     "BIO": "Über mich",
     "EMAIL": "E-Mail",
     "MEMBER_SINCE": "Mitglied seit",
     "LAST_SIGN_IN": "Letzte Anmeldung",
     "ROLE_TAKER": "Nehmer",
     "ROLE_GIVER": "Geber"
+  },
+  "VALIDATION": {
+    "REQUIRED": "Pflichtfeld.",
+    "EMAIL_INVALID": "Ungültige E-Mail-Adresse.",
+    "PASSWORD_MIN_LENGTH": "Mindestens 8 Zeichen erforderlich."
   },
   "IMAGE_UPLOADER": {
     "SELECT": "Bild auswählen",

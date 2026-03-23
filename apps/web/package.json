@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "node scripts/set-env.js && ng serve",
+    "db:types": "supabase gen types typescript --local > src/app/core/types/database.types.ts",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
