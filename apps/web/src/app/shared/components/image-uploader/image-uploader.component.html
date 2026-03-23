@@ -1,0 +1,33 @@
+<div class="uploader-wrapper" [class.circle]="isCircle()" [class.square]="!isCircle()">
+  <div
+    class="image-container"
+    (click)="openFilePicker()"
+    [attr.aria-label]="'imageUploader.select' | translate"
+  >
+    @if (loading()) {
+      <div class="overlay">
+        <mat-spinner diameter="32" />
+      </div>
+    }
+
+    @if (displayUrl()) {
+      <img [src]="displayUrl()!" class="preview-img" alt="" />
+    } @else {
+      <div class="placeholder">
+        <mat-icon>add_photo_alternate</mat-icon>
+      </div>
+    }
+
+    <div class="hover-overlay">
+      <mat-icon>edit</mat-icon>
+    </div>
+  </div>
+
+  <input
+    #fileInput
+    type="file"
+    [accept]="accept()"
+    class="hidden-input"
+    (change)="onFileSelected($event)"
+  />
+</div>

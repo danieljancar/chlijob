@@ -1,0 +1,27 @@
+# Environment files — never commit these
+.env.local
+.env.staging
+.env.production
+
+# Supabase local artifacts
+supabase/.temp/
+
+# Node
+node_modules/
+apps/web/node_modules/
+
+# Angular build output
+apps/web/dist/
+apps/web/.angular/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

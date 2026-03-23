@@ -1,0 +1,33 @@
+{
+  "name": "chlijobs",
+  "private": true,
+  "scripts": {
+    "prepare": "husky",
+    "start": "npm start --prefix apps/web",
+    "build": "npm run build --prefix apps/web",
+    "build:staging": "npm run build -- --configuration=staging --prefix apps/web",
+    "build:prod": "npm run build -- --configuration=production --prefix apps/web",
+    "test": "npm test --prefix apps/web",
+    "lint": "npm run lint --prefix apps/web",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "setup": "bash scripts/setup-local.sh",
+    "db:reset": "bash scripts/db-reset.sh",
+    "db:types": "bash scripts/generate-types.sh",
+    "supabase:start": "supabase start",
+    "supabase:stop": "supabase stop",
+    "supabase:status": "supabase status"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.8.0",
+    "@commitlint/config-conventional": "^19.8.0",
+    "husky": "^9.1.0",
+    "lint-staged": "^15.5.0",
+    "prettier": "^3.5.0",
+    "supabase": "^2.83.0"
+  },
+  "lint-staged": {
+    "apps/web/src/**/*.{ts,html,scss,css}": "prettier --write",
+    "**/*.{json,md,yml,yaml}": "prettier --write"
+  }
+}

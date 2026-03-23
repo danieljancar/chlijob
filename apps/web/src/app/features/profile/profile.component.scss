@@ -1,0 +1,115 @@
+.profile-page {
+  max-width: 680px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.page-title {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.card {
+  background: var(--mat-sys-surface-container-low);
+  border-radius: 16px;
+  padding: 20px 24px;
+}
+
+.section-title {
+  margin: 0 0 16px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.avatar-section {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.avatar-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.avatar-name {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.avatar-role {
+  font-size: 13px;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 16px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+
+  mat-form-field {
+    width: 100%;
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.full-width {
+  width: 100%;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 4px;
+}
+
+.info-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.info-label {
+  font-size: 13px;
+  color: var(--mat-sys-on-surface-variant);
+  flex-shrink: 0;
+}
+
+.info-value {
+  font-size: 13px;
+  font-weight: 500;
+  text-align: right;
+}
+
+.actions-section {
+  display: flex;
+  align-items: center;
+}
+
+.sign-out-btn {
+  color: var(--mat-sys-error);
+  border-color: var(--mat-sys-error);
+}

@@ -1,0 +1,93 @@
+<div class="profile-page">
+  <h1 class="page-title">{{ 'PROFILE.TITLE' | translate }}</h1>
+
+  <section class="card avatar-section">
+    <app-image-uploader
+      bucket="avatars"
+      [uploadPath]="userId"
+      [existingUrl]="auth.avatarUrl()"
+      shape="circle"
+      (uploaded)="onAvatarUploaded($event)"
+      (uploadError)="notify.error('NOTIFY.PROFILE_SAVE_ERROR')"
+    />
+    <div class="avatar-meta">
+      <span class="avatar-name">{{ auth.fullName() }}</span>
+      <span class="avatar-role">
+        {{
+          auth.profile()?.preferred_role === 'giver'
+            ? ('PROFILE.ROLE_GIVER' | translate)
+            : ('PROFILE.ROLE_TAKER' | translate)
+        }}
+      </span>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2 class="section-title">{{ 'PROFILE.PERSONAL_INFO' | translate }}</h2>
+    <mat-divider />
+
+    <form [formGroup]="form" (ngSubmit)="save()" class="profile-form">
+      <div class="form-row">
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'PROFILE.FIRST_NAME' | translate }}</mat-label>
+          <input matInput formControlName="first_name" autocomplete="given-name" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'PROFILE.LAST_NAME' | translate }}</mat-label>
+          <input matInput formControlName="last_name" autocomplete="family-name" />
+        </mat-form-field>
+      </div>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ 'PROFILE.PHONE' | translate }}</mat-label>
+        <mat-icon matSuffix>phone</mat-icon>
+        <input matInput formControlName="phone" type="tel" autocomplete="tel" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ 'PROFILE.LOCATION' | translate }}</mat-label>
+        <mat-icon matSuffix>location_on</mat-icon>
+        <input matInput formControlName="location" autocomplete="address-level2" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ 'PROFILE.BIO' | translate }}</mat-label>
+        <textarea matInput formControlName="bio" rows="3" style="resize: none"></textarea>
+      </mat-form-field>
+
+      <div class="form-actions">
+        <button mat-flat-button type="submit" [disabled]="saving() || form.invalid">
+          {{ saving() ? ('COMMON.LOADING' | translate) : ('COMMON.SAVE' | translate) }}
+        </button>
+      </div>
+    </form>
+  </section>
+
+  <section class="card">
+    <h2 class="section-title">{{ 'PROFILE.ACCOUNT_INFO' | translate }}</h2>
+    <mat-divider />
+
+    <div class="info-grid">
+      <div class="info-item">
+        <span class="info-label">{{ 'PROFILE.EMAIL' | translate }}</span>
+        <span class="info-value">{{ email }}</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">{{ 'PROFILE.MEMBER_SINCE' | translate }}</span>
+        <span class="info-value">{{ createdAt | date: 'mediumDate' }}</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">{{ 'PROFILE.LAST_SIGN_IN' | translate }}</span>
+        <span class="info-value">{{ lastSignIn | date: 'medium' }}</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="card actions-section">
+    <button mat-stroked-button (click)="signOut()" class="sign-out-btn">
+      <mat-icon>logout</mat-icon>
+      {{ 'COMMON.SIGN_OUT' | translate }}
+    </button>
+  </section>
+</div>

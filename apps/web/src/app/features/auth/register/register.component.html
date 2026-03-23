@@ -1,0 +1,81 @@
+<div class="auth-page">
+  <div class="auth-card">
+    <div class="auth-logo">
+      <img src="/logo_horizontal.png" alt="ChliJob." class="logo-img" />
+    </div>
+
+    <h1 class="auth-title">{{ 'AUTH.REGISTER.TITLE' | translate }}</h1>
+    <p class="auth-subtitle">{{ 'AUTH.REGISTER.SUBTITLE' | translate }}</p>
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <div class="form-row">
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'AUTH.REGISTER.FIRST_NAME' | translate }}</mat-label>
+          <input matInput formControlName="firstName" autocomplete="given-name" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'AUTH.REGISTER.LAST_NAME' | translate }}</mat-label>
+          <input matInput formControlName="lastName" autocomplete="family-name" />
+        </mat-form-field>
+      </div>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ 'AUTH.REGISTER.EMAIL' | translate }}</mat-label>
+        <input matInput type="email" formControlName="email" autocomplete="email" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ 'AUTH.REGISTER.PASSWORD' | translate }}</mat-label>
+        <input
+          matInput
+          [type]="showPassword() ? 'text' : 'password'"
+          formControlName="password"
+          autocomplete="new-password"
+        />
+        <button mat-icon-button matSuffix type="button" (click)="showPassword.set(!showPassword())">
+          <mat-icon>{{ showPassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ 'AUTH.REGISTER.BIRTHDAY' | translate }}</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="birthday" />
+        <mat-datepicker-toggle matIconSuffix [for]="picker" />
+        <mat-datepicker #picker startView="multi-year" />
+      </mat-form-field>
+
+      <div class="role-field">
+        <label class="role-label">{{ 'AUTH.REGISTER.ROLE_LABEL' | translate }}</label>
+        <mat-button-toggle-group formControlName="preferredRole" class="role-toggle">
+          <mat-button-toggle value="taker">
+            {{ 'AUTH.REGISTER.ROLE_TAKER' | translate }}
+          </mat-button-toggle>
+          <mat-button-toggle value="giver">
+            {{ 'AUTH.REGISTER.ROLE_GIVER' | translate }}
+          </mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+
+      @if (error()) {
+        <p class="auth-error">{{ error() }}</p>
+      }
+
+      <button
+        mat-flat-button
+        class="full-width submit-btn"
+        type="submit"
+        [disabled]="loading() || form.invalid"
+      >
+        {{
+          loading() ? ('AUTH.REGISTER.LOADING' | translate) : ('AUTH.REGISTER.SUBMIT' | translate)
+        }}
+      </button>
+    </form>
+
+    <p class="auth-link">
+      {{ 'AUTH.REGISTER.LOGIN_HINT' | translate }}
+      <a routerLink="/auth/login">{{ 'AUTH.LOGIN.TITLE' | translate }}</a>
+    </p>
+  </div>
+</div>

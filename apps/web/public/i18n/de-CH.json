@@ -1,0 +1,89 @@
+{
+  "APP": {
+    "TITLE": "ChliJob.",
+    "TAGLINE": "Einfach kurze Jobs finden!"
+  },
+  "NAV": {
+    "HOME": "Home",
+    "MY_JOBS": "Meine Jobs",
+    "MY_ORDERS": "Meine Aufträge",
+    "SEARCH": "Suchen"
+  },
+  "AUTH": {
+    "LOGIN": {
+      "TITLE": "Anmelden",
+      "SUBTITLE": "Willkommen zurück!",
+      "EMAIL": "E-Mail",
+      "PASSWORD": "Passwort",
+      "SUBMIT": "Anmelden",
+      "LOADING": "Wird angemeldet…",
+      "REGISTER_HINT": "Noch kein Konto?",
+      "ERROR_INVALID": "Ungültige E-Mail-Adresse oder falsches Passwort."
+    },
+    "REGISTER": {
+      "TITLE": "Registrieren",
+      "SUBTITLE": "Erstelle dein ChliJob-Konto",
+      "FIRST_NAME": "Vorname",
+      "LAST_NAME": "Nachname",
+      "EMAIL": "E-Mail",
+      "PASSWORD": "Passwort",
+      "BIRTHDAY": "Geburtstag",
+      "ROLE_LABEL": "Ich möchte vorallem…",
+      "ROLE_TAKER": "Jobs finden",
+      "ROLE_GIVER": "Jobs anbieten",
+      "SUBMIT": "Konto erstellen",
+      "LOADING": "Wird registriert…",
+      "LOGIN_HINT": "Bereits registriert?",
+      "ERROR_GENERIC": "Registrierung fehlgeschlagen. Bitte versuche es erneut."
+    }
+  },
+  "COMMON": {
+    "SIGN_OUT": "Abmelden",
+    "BACK": "Zurück",
+    "SAVE": "Speichern",
+    "CANCEL": "Abbrechen",
+    "LOADING": "Wird geladen…"
+  },
+  "HOME": {
+    "TITLE": "Home"
+  },
+  "JOBS": {
+    "TITLE": "Meine Jobs"
+  },
+  "ORDERS": {
+    "TITLE": "Meine Aufträge"
+  },
+  "SEARCH": {
+    "TITLE": "Suchen"
+  },
+  "NOTIFY": {
+    "LOGIN_SUCCESS": "Willkommen zurück!",
+    "LOGOUT_SUCCESS": "Du wurdest erfolgreich abgemeldet.",
+    "REGISTER_SUCCESS": "Konto erfolgreich erstellt. Herzlich willkommen!",
+    "PROFILE_SAVE_SUCCESS": "Profil erfolgreich gespeichert.",
+    "PROFILE_SAVE_ERROR": "Speichern fehlgeschlagen. Bitte versuche es erneut.",
+    "AVATAR_UPLOAD_SUCCESS": "Profilbild erfolgreich hochgeladen."
+  },
+  "PROFILE": {
+    "TITLE": "Mein Profil",
+    "PERSONAL_INFO": "Persönliche Angaben",
+    "ACCOUNT_INFO": "Konto-Informationen",
+    "FIRST_NAME": "Vorname",
+    "LAST_NAME": "Nachname",
+    "PHONE": "Telefon",
+    "LOCATION": "Standort",
+    "BIO": "Über mich",
+    "EMAIL": "E-Mail",
+    "MEMBER_SINCE": "Mitglied seit",
+    "LAST_SIGN_IN": "Letzte Anmeldung",
+    "ROLE_TAKER": "Nehmer",
+    "ROLE_GIVER": "Geber"
+  },
+  "IMAGE_UPLOADER": {
+    "SELECT": "Bild auswählen",
+    "CHANGE": "Bild ändern",
+    "ERROR_UPLOAD": "Upload fehlgeschlagen. Bitte versuche es erneut.",
+    "ERROR_SIZE": "Die Datei ist zu gross. Maximal 5 MB erlaubt.",
+    "ERROR_TYPE": "Ungültiges Dateiformat. Erlaubt: JPEG, PNG, WebP."
+  }
+}
