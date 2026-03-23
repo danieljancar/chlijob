@@ -57,7 +57,11 @@
       </mat-form-field>
 
       <div class="form-actions">
-        <button mat-flat-button type="submit" [disabled]="saving() || form.invalid">
+        <button
+          mat-flat-button
+          type="submit"
+          [disabled]="saving() || form.invalid || form.pristine"
+        >
           {{ saving() ? ('COMMON.LOADING' | translate) : ('COMMON.SAVE' | translate) }}
         </button>
       </div>

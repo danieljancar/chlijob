@@ -1,7 +1,8 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { TranslatePipe } from '@ngx-translate/core';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -11,4 +12,6 @@ import { TranslatePipe } from '@ngx-translate/core';
   styleUrl: './home.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HomeComponent {}
+export class HomeComponent {
+  protected auth = inject(AuthService);
+}

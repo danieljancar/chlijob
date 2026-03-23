@@ -28,7 +28,6 @@ import { UserAvatarComponent } from '../../../shared/components/user-avatar/user
     MatInputModule,
     TranslatePipe,
     ImageUploaderComponent,
-    UserAvatarComponent,
   ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',

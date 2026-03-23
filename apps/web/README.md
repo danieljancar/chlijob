@@ -22,6 +22,25 @@ Angular 21 frontend for the chlijobs platform.
 npm install
 ```
 
+### Environment
+
+Local development uses a `.env.local` file that is **gitignored**. Copy the example and fill in your values:
+
+```bash
+cp .env.example .env.local
+```
+
+Then add your local Supabase credentials (get them from `supabase status`):
+
+```
+SUPABASE_URL=http://127.0.0.1:54321
+SUPABASE_PUBLISHABLE_KEY=<your local publishable key>
+```
+
+`npm start` runs `scripts/set-env.js` first, which reads `.env.local` and writes `src/environments/environment.ts`. It fails fast if the file is missing or keys are empty.
+
+Staging and production environment files (`environment.staging.ts`, `environment.prod.ts`) are hardcoded and committed — they are used by CI builds and never contain local credentials.
+
 ### Run
 
 ```bash
