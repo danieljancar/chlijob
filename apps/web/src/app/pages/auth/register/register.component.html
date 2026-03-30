@@ -4,23 +4,21 @@
     <p class="auth-subtitle">{{ 'AUTH.REGISTER.SUBTITLE' | translate }}</p>
 
     <form [formGroup]="form" (ngSubmit)="submit()">
-      <div class="form-row">
-        <mat-form-field appearance="outline" subscriptSizing="dynamic">
-          <mat-label>{{ 'AUTH.REGISTER.FIRST_NAME' | translate }}</mat-label>
-          <input matInput formControlName="firstName" autocomplete="given-name" />
-          @if (form.controls.firstName.hasError('required')) {
-            <mat-error>{{ 'VALIDATION.REQUIRED' | translate }}</mat-error>
-          }
-        </mat-form-field>
+      <mat-form-field appearance="outline" subscriptSizing="dynamic">
+        <mat-label>{{ 'AUTH.REGISTER.FIRST_NAME' | translate }}</mat-label>
+        <input matInput formControlName="firstName" autocomplete="given-name" />
+        @if (form.controls.firstName.hasError('required')) {
+          <mat-error>{{ 'VALIDATION.REQUIRED' | translate }}</mat-error>
+        }
+      </mat-form-field>
 
-        <mat-form-field appearance="outline" subscriptSizing="dynamic">
-          <mat-label>{{ 'AUTH.REGISTER.LAST_NAME' | translate }}</mat-label>
-          <input matInput formControlName="lastName" autocomplete="family-name" />
-          @if (form.controls.lastName.hasError('required')) {
-            <mat-error>{{ 'VALIDATION.REQUIRED' | translate }}</mat-error>
-          }
-        </mat-form-field>
-      </div>
+      <mat-form-field appearance="outline" subscriptSizing="dynamic">
+        <mat-label>{{ 'AUTH.REGISTER.LAST_NAME' | translate }}</mat-label>
+        <input matInput formControlName="lastName" autocomplete="family-name" />
+        @if (form.controls.lastName.hasError('required')) {
+          <mat-error>{{ 'VALIDATION.REQUIRED' | translate }}</mat-error>
+        }
+      </mat-form-field>
 
       <mat-form-field appearance="outline" subscriptSizing="dynamic" class="full-width">
         <mat-label>{{ 'AUTH.REGISTER.EMAIL' | translate }}</mat-label>

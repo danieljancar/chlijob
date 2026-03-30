@@ -42,12 +42,15 @@ export class AuthService {
     return this.supabase.getPublicUrl('avatars', p.avatar_path);
   });
 
+  readonly initialized: Promise<void>;
+  private _resolveInitialized!: () => void;
+  private _isInitialized = false;
+
+  private readonly profileLoadMap = new Map<string, Promise<void>>();
+
   constructor() {
-    /**
-     * Single source of truth for auth state.
-     * Supabase v2 fires INITIAL_SESSION synchronously on subscription,
-     * covering the initial page load — no need for a separate getSession() call.
-     */
+    this.initialized = new Promise((resolve) => (this._resolveInitialized = resolve));
+
     this.supabase.client.auth.onAuthStateChange((event, session) => {
       switch (event) {
         case 'INITIAL_SESSION':
@@ -56,14 +59,18 @@ export class AuthService {
             this.loadProfile(session.user.id);
           } else {
             this.loading.set(false);
+            this.markInitialized();
           }
           break;
 
         case 'SIGNED_IN':
-        case 'TOKEN_REFRESHED':
         case 'USER_UPDATED':
           this.session.set(session);
           if (session) this.loadProfile(session.user.id);
+          break;
+
+        case 'TOKEN_REFRESHED':
+          this.session.set(session);
           break;
 
         case 'SIGNED_OUT':
@@ -80,12 +87,24 @@ export class AuthService {
     });
   }
 
-  /**
-   * Loads the profile for the given user.
-   * If the profile row does not exist (e.g. after a DB reset), signs the user out
-   * so the app never ends up in an inconsistent authenticated-but-profileless state.
-   */
-  private async loadProfile(userId: string): Promise<void> {
+  private markInitialized(): void {
+    if (!this._isInitialized) {
+      this._isInitialized = true;
+      this._resolveInitialized();
+    }
+  }
+
+  private loadProfile(userId: string): Promise<void> {
+    if (!this.profileLoadMap.has(userId)) {
+      const promise = this.fetchProfile(userId).finally(() => {
+        this.profileLoadMap.delete(userId);
+      });
+      this.profileLoadMap.set(userId, promise);
+    }
+    return this.profileLoadMap.get(userId)!;
+  }
+
+  private async fetchProfile(userId: string): Promise<void> {
     const { data, error } = await this.supabase.client
       .from('profiles')
       .select('*')
@@ -99,11 +118,13 @@ export class AuthService {
         await this.signOut();
       }
       this.loading.set(false);
+      this.markInitialized();
       return;
     }
 
     this.profile.set(data);
     this.loading.set(false);
+    this.markInitialized();
   }
 
   async updateProfile(data: ProfileUpdate): Promise<{ error: PostgrestError | null }> {
@@ -126,8 +147,12 @@ export class AuthService {
   }
 
   async signIn(email: string, password: string): Promise<{ error: AuthError | null }> {
-    const { error } = await this.supabase.client.auth.signInWithPassword({ email, password });
-    if (!error) await this.router.navigate(['/app']);
+    const { data, error } = await this.supabase.client.auth.signInWithPassword({ email, password });
+    if (!error && data.session) {
+      this.session.set(data.session);
+      await this.loadProfile(data.session.user.id);
+      await this.router.navigate(['/app']);
+    }
     return { error };
   }
 
@@ -144,7 +169,11 @@ export class AuthService {
       ...data,
     });
 
-    if (!profileError) await this.router.navigate(['/app']);
+    if (!profileError && authData.session) {
+      this.session.set(authData.session);
+      await this.loadProfile(authData.user.id);
+      await this.router.navigate(['/app']);
+    }
     return { error: profileError as unknown as AuthError };
   }
 

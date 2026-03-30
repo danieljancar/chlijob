@@ -26,7 +26,7 @@ This installs dependencies and starts the local Supabase stack. After it runs, `
 Copy the **Publishable key** into `apps/web/src/environments/environment.ts`:
 
 ```typescript
-supabasePublishableKey: 'sb_publishable_XXXXXXXXX',
+supabasePublishableKey: 'sb_publishable_XXXXXXXXX';
 ```
 
 > The **Secret key** is the equivalent of the old `service_role` key — never put it in the frontend.

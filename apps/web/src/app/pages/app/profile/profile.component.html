@@ -66,8 +66,8 @@
         <mat-label>{{ 'PROFILE.LOCATION' | translate }}</mat-label>
         <mat-select formControlName="location">
           <mat-option value="">—</mat-option>
-          @for (canton of cantons; track canton.code) {
-            <mat-option [value]="canton.name">{{ canton.name }}</mat-option>
+          @for (code of cantons; track code) {
+            <mat-option [value]="code">{{ 'CANTONS.' + code | translate }}</mat-option>
           }
         </mat-select>
       </mat-form-field>
