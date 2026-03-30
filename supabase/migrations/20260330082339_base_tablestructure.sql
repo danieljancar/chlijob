@@ -203,5 +203,6 @@ values
   ('Gardening', 'gardening'),
   ('Moving', 'moving'),
   ('IT Support', 'it-support'),
-  ('Tutoring', 'tutoring')
+  ('Tutoring', 'tutoring'),
+  ('Other', 'other')
 on conflict (name) do nothing;
