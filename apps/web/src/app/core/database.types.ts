@@ -28,6 +28,174 @@ export type Database = {
   };
   public: {
     Tables: {
+      applications: {
+        Row: {
+          contract_id: number | null;
+          created_at: string | null;
+          id: number;
+          status: string | null;
+          text: string | null;
+          user_id: string | null;
+        };
+        Insert: {
+          contract_id?: number | null;
+          created_at?: string | null;
+          id?: number;
+          status?: string | null;
+          text?: string | null;
+          user_id?: string | null;
+        };
+        Update: {
+          contract_id?: number | null;
+          created_at?: string | null;
+          id?: number;
+          status?: string | null;
+          text?: string | null;
+          user_id?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'applications_contract_id_fkey';
+            columns: ['contract_id'];
+            isOneToOne: false;
+            referencedRelation: 'contracts';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'applications_user_id_fkey';
+            columns: ['user_id'];
+            isOneToOne: false;
+            referencedRelation: 'profiles';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      categories: {
+        Row: {
+          id: number;
+          name: string;
+          slug: string | null;
+        };
+        Insert: {
+          id?: number;
+          name: string;
+          slug?: string | null;
+        };
+        Update: {
+          id?: number;
+          name?: string;
+          slug?: string | null;
+        };
+        Relationships: [];
+      };
+      contract_images: {
+        Row: {
+          contract_id: number | null;
+          created_at: string | null;
+          id: number;
+          image_path: string;
+        };
+        Insert: {
+          contract_id?: number | null;
+          created_at?: string | null;
+          id?: number;
+          image_path: string;
+        };
+        Update: {
+          contract_id?: number | null;
+          created_at?: string | null;
+          id?: number;
+          image_path?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'contract_images_contract_id_fkey';
+            columns: ['contract_id'];
+            isOneToOne: false;
+            referencedRelation: 'contracts';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      contracts: {
+        Row: {
+          address: string | null;
+          canceled_at: string | null;
+          category_id: number | null;
+          completed_at: string | null;
+          created_at: string | null;
+          creator_id: string;
+          description: string | null;
+          estimated_hours: number | null;
+          id: number;
+          latitude: number | null;
+          longitude: number | null;
+          preferred_date: string | null;
+          salary_per_hour: number | null;
+          taker_id: string | null;
+          title: string;
+          updated_at: string | null;
+        };
+        Insert: {
+          address?: string | null;
+          canceled_at?: string | null;
+          category_id?: number | null;
+          completed_at?: string | null;
+          created_at?: string | null;
+          creator_id: string;
+          description?: string | null;
+          estimated_hours?: number | null;
+          id?: number;
+          latitude?: number | null;
+          longitude?: number | null;
+          preferred_date?: string | null;
+          salary_per_hour?: number | null;
+          taker_id?: string | null;
+          title: string;
+          updated_at?: string | null;
+        };
+        Update: {
+          address?: string | null;
+          canceled_at?: string | null;
+          category_id?: number | null;
+          completed_at?: string | null;
+          created_at?: string | null;
+          creator_id?: string;
+          description?: string | null;
+          estimated_hours?: number | null;
+          id?: number;
+          latitude?: number | null;
+          longitude?: number | null;
+          preferred_date?: string | null;
+          salary_per_hour?: number | null;
+          taker_id?: string | null;
+          title?: string;
+          updated_at?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'contracts_category_id_fkey';
+            columns: ['category_id'];
+            isOneToOne: false;
+            referencedRelation: 'categories';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'contracts_creator_id_fkey';
+            columns: ['creator_id'];
+            isOneToOne: false;
+            referencedRelation: 'profiles';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'contracts_taker_id_fkey';
+            columns: ['taker_id'];
+            isOneToOne: false;
+            referencedRelation: 'profiles';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
       profiles: {
         Row: {
           avatar_blurhash: string | null;
@@ -35,13 +203,17 @@ export type Database = {
           bio: string | null;
           birthday: string | null;
           created_at: string;
+          email: string | null;
           first_name: string;
           id: string;
           last_name: string;
           location: string | null;
           phone: string | null;
           preferred_role: string;
+          rating_avg: number | null;
+          review_count: number | null;
           updated_at: string;
+          username: string | null;
         };
         Insert: {
           avatar_blurhash?: string | null;
@@ -49,13 +221,17 @@ export type Database = {
           bio?: string | null;
           birthday?: string | null;
           created_at?: string;
+          email?: string | null;
           first_name?: string;
           id: string;
           last_name?: string;
           location?: string | null;
           phone?: string | null;
           preferred_role?: string;
+          rating_avg?: number | null;
+          review_count?: number | null;
           updated_at?: string;
+          username?: string | null;
         };
         Update: {
           avatar_blurhash?: string | null;
@@ -63,15 +239,71 @@ export type Database = {
           bio?: string | null;
           birthday?: string | null;
           created_at?: string;
+          email?: string | null;
           first_name?: string;
           id?: string;
           last_name?: string;
           location?: string | null;
           phone?: string | null;
           preferred_role?: string;
+          rating_avg?: number | null;
+          review_count?: number | null;
           updated_at?: string;
+          username?: string | null;
         };
         Relationships: [];
+      };
+      reviews: {
+        Row: {
+          comment: string | null;
+          contract_id: number | null;
+          created_at: string | null;
+          id: number;
+          rating: number;
+          reviewed_by_id: string;
+          reviewed_to_id: string;
+        };
+        Insert: {
+          comment?: string | null;
+          contract_id?: number | null;
+          created_at?: string | null;
+          id?: number;
+          rating: number;
+          reviewed_by_id: string;
+          reviewed_to_id: string;
+        };
+        Update: {
+          comment?: string | null;
+          contract_id?: number | null;
+          created_at?: string | null;
+          id?: number;
+          rating?: number;
+          reviewed_by_id?: string;
+          reviewed_to_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'reviews_contract_id_fkey';
+            columns: ['contract_id'];
+            isOneToOne: false;
+            referencedRelation: 'contracts';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'reviews_reviewed_by_id_fkey';
+            columns: ['reviewed_by_id'];
+            isOneToOne: false;
+            referencedRelation: 'profiles';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'reviews_reviewed_to_id_fkey';
+            columns: ['reviewed_to_id'];
+            isOneToOne: false;
+            referencedRelation: 'profiles';
+            referencedColumns: ['id'];
+          },
+        ];
       };
     };
     Views: {
