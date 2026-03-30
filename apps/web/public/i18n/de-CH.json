@@ -152,5 +152,10 @@
     "ERROR_UPLOAD": "Upload fehlgeschlagen. Bitte versuche es erneut.",
     "ERROR_SIZE": "Die Datei ist zu gross. Maximal 5 MB erlaubt.",
     "ERROR_TYPE": "Ungültiges Dateiformat. Erlaubt: JPEG, PNG, WebP."
+  },
+  "CTA_BANNER_SEARCH": {
+    "TITLE": "Weitere Aufträge entdecken?",
+    "SUBTITLE": "Suche und finde den nächsten Job in deiner Nähe.",
+    "BUTTON": "Suchen"
   }
 }
