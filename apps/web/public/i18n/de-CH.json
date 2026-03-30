@@ -48,7 +48,9 @@
     "HERO_TITLE": "Kurze Jobs. Einfach finden.",
     "HERO_SUBTITLE": "Verbinde dich mit Menschen in deiner Nähe. Egal ob du kurze Jobs anbietest oder suchst.",
     "CTA_REGISTER": "Jetzt kostenlos starten",
-    "CTA_LOGIN": "Anmelden"
+    "CTA_LOGIN": "Anmelden",
+    "FEATURES_TITLE": "Warum ChliJob?",
+    "FAQ_TITLE": "Häufig gestellte Fragen"
   },
   "DASHBOARD": {
     "GREETING": "Hallo {{name}}!",

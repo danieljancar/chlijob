@@ -1,20 +1,35 @@
-<div class="hero">
-  <div class="hero-content">
-    <h1 class="hero-title">{{ 'HOME.HERO_TITLE' | translate }}</h1>
-    <p class="hero-subtitle">{{ 'HOME.HERO_SUBTITLE' | translate }}</p>
-    <div class="hero-actions">
-      @if (auth.isAuthenticated()) {
+<div div class="home-container">
+  <div class="hero">
+    <div class="hero-content">
+      <h1 class="hero-title">{{ 'HOME.HERO_TITLE' | translate }}</h1>
+      <p class="hero-subtitle">{{ 'HOME.HERO_SUBTITLE' | translate }}</p>
+      <div class="hero-actions">
+        @if (auth.isAuthenticated()) {
         <a routerLink="/app" mat-flat-button class="hero-cta-primary">
           {{ 'NAV.TO_APP' | translate }}
         </a>
-      } @else {
+        } @else {
         <a routerLink="/auth/register" mat-flat-button class="hero-cta-primary">
           {{ 'HOME.CTA_REGISTER' | translate }}
         </a>
         <a routerLink="/auth/login" mat-stroked-button class="hero-cta-secondary">
           {{ 'HOME.CTA_LOGIN' | translate }}
         </a>
-      }
+        }
+      </div>
     </div>
+  </div>
+  <div class="features">
+    <h2 class="features-title">{{ 'HOME.FEATURES_TITLE' | translate }}</h2>
+    <app-carousel
+      class="features-carousel"
+      [carouselItems]="carouselItems"
+      [autoPlay]="true"
+      [interval]="5000">
+    </app-carousel>
+  </div>
+  <div class="faq-section">
+    <h2 class="faq-title">{{ 'HOME.FAQ_TITLE' | translate }}</h2>
+    <app-expansion-panel [items]="faqItems"></app-expansion-panel>
   </div>
 </div>
