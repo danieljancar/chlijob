@@ -1,8 +1,37 @@
 <div>
-  <diV>
-    <h1>Hallo Max! 👋</h1>
-    <p>Du hast 3 ausstehende Bewerbungen und 3 bestätigte Jobs die anfallen.</p>
-  </diV>
+  <div>
+    <h1>Hallo {{ data.name }} ! 👋</h1>
+    <p>
+      Du hast {{ data.applications }} ausstehende Bewerbungen und {{ data.jobs }} bestätigte Jobs
+      die anfallen.
+    </p>
+  </div>
+
+  <div>
+    <button [class.active]="currentPersona === 'nehmer'" (click)="setPersona('nehmer')">
+      Nehmer
+    </button>
+    <button [class.active]="currentPersona === 'geber'" (click)="setPersona('geber')">Geber</button>
+  </div>
+
+  <div class="dashboard__cards">
+    <div class="card" *ngFor="let card of cards">
+      <div class="card__icon">
+        {{ card.icon }}
+      </div>
+      <div class="card__content">
+        <div class="card__value">
+          {{ card.value }}
+        </div>
+        <div class="card__title">
+          {{ card.title }}
+        </div>
+        <div class="card__subtitle">
+          {{ card.subtitle }}
+        </div>
+      </div>
+    </div>
+  </div>
 
   <div class="cta-banner__container">
     <app-cta-banner
