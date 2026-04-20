@@ -1,0 +1,50 @@
+<div class="dashboard-page">
+  <div class="dashboard-header">
+    <div class="dashboard-header__left">
+      <h1 class="greeting">
+        {{ 'DASHBOARD.GREETING' | translate: { name: auth.profile()?.first_name } }} 👋
+      </h1>
+      <p class="subtitle">
+        @if (activeView() === 'taker') {
+          {{ 'DASHBOARD.SUBTITLE_TAKER_PRE' | translate }}
+          <strong class="highlight"
+            >{{ pendingCount() }} {{ 'DASHBOARD.SUBTITLE_TAKER_PENDING' | translate }}</strong
+          >
+          {{ 'DASHBOARD.SUBTITLE_TAKER_MID' | translate }}
+          <strong class="highlight"
+            >{{ activeCount() }} {{ 'DASHBOARD.SUBTITLE_TAKER_ACTIVE' | translate }}</strong
+          >
+          {{ 'DASHBOARD.SUBTITLE_TAKER_POST' | translate }}
+        } @else {
+          {{ 'DASHBOARD.SUBTITLE_GIVER_PRE' | translate }}
+          <strong class="highlight"
+            >{{ pendingCount() }} {{ 'DASHBOARD.SUBTITLE_GIVER_NEW' | translate }}</strong
+          >
+          {{ 'DASHBOARD.SUBTITLE_GIVER_POST' | translate }}
+        }
+      </p>
+    </div>
+
+    <div class="view-toggle">
+      <span class="view-label">{{ 'DASHBOARD.VIEW_LABEL' | translate }}</span>
+      <mat-button-toggle-group
+        [value]="activeView()"
+        (change)="switchView($event.value)"
+        hideSingleSelectionIndicator
+      >
+        <mat-button-toggle value="taker">{{ 'DASHBOARD.TAKER' | translate }}</mat-button-toggle>
+        <mat-button-toggle value="giver">{{ 'DASHBOARD.GIVER' | translate }}</mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+  </div>
+
+  @if (loading()) {
+    <div class="loading-center">
+      <mat-spinner diameter="40" />
+    </div>
+  } @else if (activeView() === 'taker' && takerData()) {
+    <app-taker-view [data]="takerData()!" />
+  } @else if (activeView() === 'giver' && giverData()) {
+    <app-giver-view [data]="giverData()!" (actionTaken)="reloadGiverData()" />
+  }
+</div>

@@ -1,0 +1,102 @@
+<div class="jobs-page">
+  <div class="page-header">
+    <h1 class="page-title">{{ 'JOBS.TITLE' | translate }}</h1>
+    <button mat-flat-button (click)="navigateToCreate()">
+      <mat-icon>add</mat-icon>
+      {{ 'JOBS.NEW_JOB' | translate }}
+    </button>
+  </div>
+
+  @if (loading()) {
+    <div class="loading-center">
+      <mat-spinner diameter="40" />
+    </div>
+  } @else if (contracts().length === 0) {
+    <div class="empty-state">
+      <mat-icon class="empty-icon">cases</mat-icon>
+      <p>{{ 'JOBS.EMPTY' | translate }}</p>
+      <button mat-stroked-button (click)="navigateToCreate()">
+        {{ 'JOBS.CREATE_FIRST' | translate }}
+      </button>
+    </div>
+  } @else {
+    <mat-accordion class="contracts-list">
+      @for (contract of contracts(); track contract.id) {
+        <mat-expansion-panel (opened)="loadApplications(contract.id)">
+          <mat-expansion-panel-header>
+            <mat-panel-title class="panel-title">
+              <span class="contract-title">{{ contract.title }}</span>
+              <app-job-status-badge [status]="contract.status" />
+            </mat-panel-title>
+            <mat-panel-description class="panel-desc">
+              @if (contract.salary_per_hour) {
+                {{ contract.salary_per_hour | number: '1.2-2' }} CHF/h
+              }
+              @if (contract.category?.slug | categoryLabel; as catLabel) {
+                · {{ catLabel }}
+              }
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+
+          <div class="panel-body">
+            @if (contract.description) {
+              <p class="contract-desc">{{ contract.description }}</p>
+              <mat-divider />
+            }
+
+            <h4 class="applications-heading">{{ 'JOBS.APPLICATIONS' | translate }}</h4>
+
+            @if (getApplications(contract.id).length === 0 && contract.status === 'open') {
+              <p class="no-apps">{{ 'JOBS.NO_APPLICATIONS' | translate }}</p>
+            }
+
+            @for (app of getApplications(contract.id); track app.id) {
+              <div class="application-item">
+                <div class="applicant-info">
+                  <span class="applicant-name">
+                    {{ app.profile?.first_name }} {{ app.profile?.last_name }}
+                  </span>
+                  <app-star-rating
+                    [rating]="app.profile?.rating_avg ?? 0"
+                    [reviewCount]="app.profile?.review_count ?? 0"
+                  />
+                  @if (app.profile?.bio) {
+                    <span class="applicant-bio">{{ app.profile!.bio }}</span>
+                  }
+                  @if (app.text) {
+                    <span class="application-text">„{{ app.text }}"</span>
+                  }
+                </div>
+
+                <div class="application-actions">
+                  @if (app.status === 'pending' && contract.status === 'open') {
+                    <button
+                      mat-stroked-button
+                      class="reject-btn"
+                      [disabled]="actionInProgress() === app.id"
+                      (click)="reject(app.id, contract.id)"
+                    >
+                      {{ 'JOBS.REJECT' | translate }}
+                    </button>
+                    <button
+                      mat-flat-button
+                      [disabled]="actionInProgress() === app.id"
+                      (click)="accept(app.id, contract.id)"
+                    >
+                      {{ 'JOBS.ACCEPT' | translate }}
+                    </button>
+                  } @else {
+                    <span class="app-status" [class]="'status-' + app.status">
+                      {{ 'JOBS.APP_STATUS_' + app.status.toUpperCase() | translate }}
+                    </span>
+                  }
+                </div>
+              </div>
+              <mat-divider />
+            }
+          </div>
+        </mat-expansion-panel>
+      }
+    </mat-accordion>
+  }
+</div>

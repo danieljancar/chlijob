@@ -53,16 +53,112 @@
     "FAQ_TITLE": "Häufig gestellte Fragen"
   },
   "DASHBOARD": {
-    "TITLE": "Dashboard"
+    "GREETING": "Hallo {{name}}!",
+    "VIEW_LABEL": "Ansicht",
+    "TAKER": "Nehmer",
+    "GIVER": "Geber",
+    "SUBTITLE_TAKER_PRE": "Du hast",
+    "SUBTITLE_TAKER_PENDING": "ausstehende Bewerbungen",
+    "SUBTITLE_TAKER_MID": "und",
+    "SUBTITLE_TAKER_ACTIVE": "bestätigte Jobs",
+    "SUBTITLE_TAKER_POST": "die anfallen.",
+    "SUBTITLE_GIVER_PRE": "Du hast",
+    "SUBTITLE_GIVER_NEW": "neue Bewerbungen",
+    "SUBTITLE_GIVER_POST": "auf deine offenen Aufträge erhalten.",
+    "STAT_ACTIVE_JOBS": "Aktive Jobs",
+    "STAT_APPLICATIONS": "Bewerbungen",
+    "STAT_EARNED": "Verdient",
+    "STAT_RATING": "Dein Rating",
+    "STAT_OPEN_CONTRACTS": "Offene Aufträge",
+    "STAT_NEW_APPLICATIONS": "Neue Bewerbungen",
+    "STAT_COMPLETED": "Abgeschlossen",
+    "CONFIRMED": "Bestätigt",
+    "PENDING": "Ausstehend",
+    "TOTAL": "Total",
+    "ACTIVE_LISTED": "Aktiv inseriert",
+    "AS_GIVER": "Als Auftraggeber",
+    "FROM_REVIEWS": "Bewertungen",
+    "NEW": "neu",
+    "OPEN": "offen",
+    "ACTIVE": "aktiv",
+    "MY_JOBS": "Meine Jobs",
+    "MY_JOBS_SUBTITLE": "Aufträge, für die du bestätigt wurdest und die bald anstehen.",
+    "MY_APPLICATIONS": "Meine Bewerbungen",
+    "MY_APPLICATIONS_SUBTITLE": "Aufträge, auf die du dich beworben hast, welche ausstehend oder abgelehnt sind.",
+    "RECENTLY_COMPLETED": "Zuletzt abgeschlossen",
+    "RECENTLY_COMPLETED_SUBTITLE": "Deine zuletzt erledigten Jobs.",
+    "MY_CONTRACTS": "Meine Aufträge",
+    "MY_CONTRACTS_SUBTITLE": "Aufträge, die du inseriert hast und noch keiner Person zugewiesen wurden.",
+    "NEW_APPLICATIONS": "Neue Bewerbungen",
+    "NEW_APPLICATIONS_SUBTITLE": "Personen haben sich auf deine Aufträge beworben.",
+    "SEE_ALL": "Alle anzeigen",
+    "SEE_HISTORY": "Verlauf ansehen",
+    "MANAGE_ALL": "Alle verwalten",
+    "APPLICATIONS": "Bewerbungen",
+    "CONTRACT_OF": "Auftrag von",
+    "APPLIED_ON": "Beworben am",
+    "APPLIED_TO": "Beworben auf"
   },
   "JOBS": {
-    "TITLE": "Meine Jobs"
+    "TITLE": "Meine Jobs",
+    "NEW_JOB": "Neues Inserat",
+    "EMPTY": "Du hast noch keine Jobs ausgeschrieben.",
+    "CREATE_FIRST": "Ersten Job erstellen",
+    "APPLICATIONS": "Bewerbungen",
+    "NO_APPLICATIONS": "Noch keine Bewerbungen eingegangen.",
+    "ACCEPT": "Annehmen",
+    "REJECT": "Ablehnen",
+    "STATUS_OPEN": "Offen",
+    "STATUS_ASSIGNED": "Vergeben",
+    "STATUS_COMPLETED": "Abgeschlossen",
+    "STATUS_CANCELED": "Abgebrochen",
+    "APP_STATUS_PENDING": "Ausstehend",
+    "APP_STATUS_ACCEPTED": "Angenommen",
+    "APP_STATUS_REJECTED": "Abgelehnt"
   },
-  "CONTRACTS": {
-    "TITLE": "Aufträge"
+  "CREATE_JOB": {
+    "TITLE": "Neues Inserat erstellen",
+    "JOB_TITLE": "Jobtitel",
+    "DESCRIPTION": "Beschreibung",
+    "CATEGORY": "Kategorie",
+    "SALARY": "Stundenlohn (CHF)",
+    "HOURS": "Geschätzte Stunden",
+    "ADDRESS": "Adresse / Ort",
+    "DATE": "Gewünschtes Datum",
+    "IMAGES": "Fotos",
+    "IMAGES_HINT": "Maximal 5 Bilder (JPEG, PNG, WebP).",
+    "SUBMIT": "Inserat ausschreiben"
+  },
+  "JOB_DETAIL": {
+    "SALARY": "Stundenlohn",
+    "HOURS": "Geschätzte Stunden",
+    "ADDRESS": "Adresse",
+    "DATE": "Gewünschtes Datum",
+    "POSTED_BY": "Inseriert von"
   },
   "SEARCH": {
-    "TITLE": "Suchen"
+    "TITLE": "Jobs suchen",
+    "FILTER_CATEGORY": "Kategorie",
+    "FILTER_LOCATION": "Kanton",
+    "ALL_CATEGORIES": "Alle Kategorien",
+    "ALL_LOCATIONS": "Alle Kantone",
+    "EMPTY": "Keine offenen Jobs gefunden."
+  },
+  "CONTRACTS": {
+    "TITLE": "Aufträge",
+    "ACTIVE": "Aktiv",
+    "HISTORY": "Verlauf",
+    "EMPTY_ACTIVE": "Keine aktiven Aufträge vorhanden.",
+    "EMPTY_HISTORY": "Noch kein Auftragsverlauf vorhanden.",
+    "FIND_JOBS": "Jobs suchen",
+    "AS_GIVER": "Als Auftraggeber",
+    "AS_TAKER": "Als Auftragnehmer"
+  },
+  "JOB_CARD": {
+    "PER_HOUR": "CHF/h",
+    "HOURS": "Std.",
+    "APPLY": "Bewerben",
+    "APPLIED": "Beworben"
   },
   "ABOUT": {
     "TITLE": "Über uns"
@@ -84,7 +180,14 @@
     "PROFILE_SAVE_SUCCESS": "Profil erfolgreich gespeichert.",
     "PROFILE_SAVE_ERROR": "Speichern fehlgeschlagen. Bitte versuche es erneut.",
     "AVATAR_UPLOAD_SUCCESS": "Profilbild erfolgreich hochgeladen.",
-    "SESSION_EXPIRED": "Deine Sitzung ist abgelaufen. Bitte melde dich erneut an."
+    "SESSION_EXPIRED": "Deine Sitzung ist abgelaufen. Bitte melde dich erneut an.",
+    "CREATE_JOB_SUCCESS": "Inserat erfolgreich erstellt.",
+    "CREATE_JOB_ERROR": "Fehler beim Erstellen des Inserats.",
+    "APPLY_SUCCESS": "Bewerbung erfolgreich eingereicht.",
+    "APPLY_ERROR": "Bewerbung fehlgeschlagen. Bitte versuche es erneut.",
+    "APPLICATION_ACCEPTED": "Bewerber erfolgreich angenommen.",
+    "APPLICATION_REJECTED": "Bewerber abgelehnt.",
+    "APPLICATION_ACTION_ERROR": "Fehler bei der Aktion. Bitte versuche es erneut."
   },
   "AUTH_ERROR": {
     "INVALID_CREDENTIALS": "Ungültige E-Mail-Adresse oder falsches Passwort.",
@@ -103,6 +206,10 @@
     "TITLE": "Mein Profil",
     "PERSONAL_INFO": "Persönliche Angaben",
     "ACCOUNT_INFO": "Konto-Informationen",
+    "STATS": "Bewertungen & Statistiken",
+    "RATING": "Bewertung",
+    "REVIEWS": "Bewertungen",
+    "NO_REVIEWS": "Noch keine Bewertungen",
     "FIRST_NAME": "Vorname",
     "LAST_NAME": "Nachname",
     "PHONE": "Telefon",
@@ -115,10 +222,40 @@
     "ROLE_TAKER": "Nehmer",
     "ROLE_GIVER": "Geber"
   },
+  "CANTONS": {
+    "AG": "Aargau",
+    "AI": "Appenzell Innerrhoden",
+    "AR": "Appenzell Ausserrhoden",
+    "BE": "Bern",
+    "BL": "Basel-Landschaft",
+    "BS": "Basel-Stadt",
+    "FR": "Freiburg",
+    "GE": "Genf",
+    "GL": "Glarus",
+    "GR": "Graubünden",
+    "JU": "Jura",
+    "LU": "Luzern",
+    "NE": "Neuenburg",
+    "NW": "Nidwalden",
+    "OW": "Obwalden",
+    "SG": "St. Gallen",
+    "SH": "Schaffhausen",
+    "SO": "Solothurn",
+    "SZ": "Schwyz",
+    "TG": "Thurgau",
+    "TI": "Tessin",
+    "UR": "Uri",
+    "VD": "Waadt",
+    "VS": "Wallis",
+    "ZG": "Zug",
+    "ZH": "Zürich"
+  },
   "VALIDATION": {
     "REQUIRED": "Pflichtfeld.",
     "EMAIL_INVALID": "Ungültige E-Mail-Adresse.",
-    "PASSWORD_MIN_LENGTH": "Mindestens 8 Zeichen erforderlich."
+    "PASSWORD_MIN_LENGTH": "Mindestens 8 Zeichen erforderlich.",
+    "MIN_1": "Mindestens 1.",
+    "MIN_0_5": "Mindestens 0.5."
   },
   "IMAGE_UPLOADER": {
     "SELECT": "Bild auswählen",
@@ -126,5 +263,18 @@
     "ERROR_UPLOAD": "Upload fehlgeschlagen. Bitte versuche es erneut.",
     "ERROR_SIZE": "Die Datei ist zu gross. Maximal 5 MB erlaubt.",
     "ERROR_TYPE": "Ungültiges Dateiformat. Erlaubt: JPEG, PNG, WebP."
+  },
+  "CATEGORIES": {
+    "cleaning": "Reinigung",
+    "gardening": "Gartenarbeit",
+    "moving": "Umzug",
+    "it-support": "IT-Support",
+    "tutoring": "Nachhilfe",
+    "other": "Sonstiges"
+  },
+  "CTA_BANNER_SEARCH": {
+    "TITLE": "Weitere Aufträge entdecken?",
+    "SUBTITLE": "Suche und finde den nächsten Job in deiner Nähe.",
+    "BUTTON": "Suchen"
   }
 }

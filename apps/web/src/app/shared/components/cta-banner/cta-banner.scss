@@ -1,0 +1,48 @@
+.cta-banner {
+  background: var(--mat-sys-surface-container-low);
+  border-radius: 16px;
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  box-sizing: border-box;
+}
+
+.cta-banner__content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cta-banner__title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--mat-sys-on-surface);
+}
+
+.cta-banner__subtitle {
+  margin: 0;
+  font-size: 14px;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.cta-banner__actions {
+  flex-shrink: 0;
+}
+
+@media (max-width: 599px) {
+  .cta-banner {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20px;
+  }
+
+  .cta-banner__actions button {
+    width: 100%;
+  }
+}

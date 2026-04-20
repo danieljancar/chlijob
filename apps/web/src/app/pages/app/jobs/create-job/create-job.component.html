@@ -1,0 +1,98 @@
+<div class="create-job-page">
+  <div class="page-header">
+    <button mat-icon-button (click)="cancel()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h1 class="page-title">{{ 'CREATE_JOB.TITLE' | translate }}</h1>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="submit()" class="create-job-form card">
+    <mat-form-field appearance="outline" subscriptSizing="dynamic" class="full-width">
+      <mat-label>{{ 'CREATE_JOB.JOB_TITLE' | translate }}</mat-label>
+      <input matInput formControlName="title" autocomplete="off" />
+      @if (form.controls.title.hasError('required')) {
+        <mat-error>{{ 'VALIDATION.REQUIRED' | translate }}</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" subscriptSizing="dynamic" class="full-width">
+      <mat-label>{{ 'CREATE_JOB.DESCRIPTION' | translate }}</mat-label>
+      <textarea matInput formControlName="description" rows="3" style="resize: none"></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" subscriptSizing="dynamic" class="full-width">
+      <mat-label>{{ 'CREATE_JOB.CATEGORY' | translate }}</mat-label>
+      <mat-select formControlName="category_id">
+        <mat-option [value]="null">—</mat-option>
+        @for (cat of categories(); track cat.id) {
+          <mat-option [value]="cat.id">{{ cat.slug | categoryLabel }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline" subscriptSizing="dynamic">
+        <mat-label>{{ 'CREATE_JOB.SALARY' | translate }}</mat-label>
+        <input matInput formControlName="salary_per_hour" type="number" min="1" step="0.5" />
+        @if (form.controls.salary_per_hour.hasError('min')) {
+          <mat-error>{{ 'VALIDATION.MIN_1' | translate }}</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" subscriptSizing="dynamic">
+        <mat-label>{{ 'CREATE_JOB.HOURS' | translate }}</mat-label>
+        <input matInput formControlName="estimated_hours" type="number" min="0.5" step="0.5" />
+        @if (form.controls.estimated_hours.hasError('min')) {
+          <mat-error>{{ 'VALIDATION.MIN_0_5' | translate }}</mat-error>
+        }
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline" subscriptSizing="dynamic" class="full-width">
+      <mat-label>{{ 'CREATE_JOB.ADDRESS' | translate }}</mat-label>
+      <input matInput formControlName="address" autocomplete="street-address" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" subscriptSizing="dynamic" class="full-width">
+      <mat-label>{{ 'CREATE_JOB.DATE' | translate }}</mat-label>
+      <input matInput formControlName="preferred_date" type="date" />
+    </mat-form-field>
+
+    <div class="image-upload-section">
+      <p class="image-upload-label">{{ 'CREATE_JOB.IMAGES' | translate }}</p>
+
+      <div class="image-previews">
+        @for (url of previewUrls(); track $index) {
+          <div class="image-preview">
+            <img [src]="url" [alt]="'Preview ' + ($index + 1)" />
+            <button mat-icon-button type="button" class="remove-btn" (click)="removeImage($index)">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+        }
+        @if (pendingFiles().length < 5) {
+          <label class="image-add-btn">
+            <mat-icon>add_photo_alternate</mat-icon>
+            <input
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              multiple
+              hidden
+              (change)="onFilesSelected($event)"
+            />
+          </label>
+        }
+      </div>
+      <p class="image-hint">{{ 'CREATE_JOB.IMAGES_HINT' | translate }}</p>
+    </div>
+
+    <div class="form-actions">
+      <button mat-stroked-button type="button" (click)="cancel()">
+        {{ 'COMMON.CANCEL' | translate }}
+      </button>
+      <button mat-flat-button type="submit" [disabled]="form.invalid || saving()">
+        {{ saving() ? ('COMMON.LOADING' | translate) : ('CREATE_JOB.SUBMIT' | translate) }}
+      </button>
+    </div>
+  </form>
+</div>

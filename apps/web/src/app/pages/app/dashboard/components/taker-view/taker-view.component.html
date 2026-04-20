@@ -1,0 +1,204 @@
+<div class="taker-view">
+  <div class="stats-row">
+    <app-stat-card
+      icon="cases"
+      [value]="data().activeContracts.length"
+      [label]="'DASHBOARD.STAT_ACTIVE_JOBS' | translate"
+      [sublabel]="'DASHBOARD.CONFIRMED' | translate"
+      color="green"
+    />
+    <app-stat-card
+      icon="edit_note"
+      [value]="data().pendingApplicationsCount"
+      [label]="'DASHBOARD.STAT_APPLICATIONS' | translate"
+      [sublabel]="'DASHBOARD.PENDING' | translate"
+      color="amber"
+    />
+    <app-stat-card
+      icon="payments"
+      [value]="'CHF ' + (data().totalEarnings | number: '1.0-0')"
+      [label]="'DASHBOARD.STAT_EARNED' | translate"
+      [sublabel]="'DASHBOARD.TOTAL' | translate"
+      color="purple"
+    />
+    <app-stat-card
+      icon="grade"
+      [value]="data().activeContracts[0]?.creator?.rating_avg ?? '—'"
+      [label]="'DASHBOARD.STAT_RATING' | translate"
+      [sublabel]="'DASHBOARD.FROM_REVIEWS' | translate"
+      color="blue"
+    />
+  </div>
+
+  @if (data().activeContracts.length > 0) {
+    <section class="dashboard-section">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">
+            {{ 'DASHBOARD.MY_JOBS' | translate }}
+            <span class="section-badge section-badge--green"
+              >{{ data().activeContracts.length }} {{ 'DASHBOARD.ACTIVE' | translate }}</span
+            >
+          </h2>
+          <p class="section-subtitle">{{ 'DASHBOARD.MY_JOBS_SUBTITLE' | translate }}</p>
+        </div>
+        <a mat-button routerLink="/app/contracts" class="see-all-link">
+          {{ 'DASHBOARD.SEE_ALL' | translate }} <mat-icon>arrow_forward</mat-icon>
+        </a>
+      </div>
+
+      <div class="list-card">
+        @for (contract of data().activeContracts; track contract.id; let last = $last) {
+          <div class="list-item" [class.last]="last">
+            <div class="list-item__category">
+              @if (contract.category?.slug | categoryLabel; as label) {
+                <span class="category-chip">{{ label }}</span>
+              }
+            </div>
+            <div class="list-item__content">
+              <span class="list-item__title">{{ contract.title }}</span>
+              <div class="list-item__meta">
+                @if (contract.address) {
+                  <span><mat-icon>location_on</mat-icon>{{ contract.address }}</span>
+                }
+                @if (contract.preferred_date) {
+                  <span
+                    ><mat-icon>calendar_today</mat-icon
+                    >{{ contract.preferred_date | date: 'EEE, dd. MMMM yyyy' }}</span
+                  >
+                }
+              </div>
+            </div>
+            <div class="list-item__right">
+              <app-job-status-badge [status]="contract.status" />
+              @if (contract.salary_per_hour) {
+                <span class="list-item__salary"
+                  >CHF {{ contract.salary_per_hour | number: '1.0-0' }}.-/h</span
+                >
+              }
+            </div>
+          </div>
+        }
+      </div>
+    </section>
+  }
+
+  @if (data().recentApplications.length > 0) {
+    <section class="dashboard-section">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">
+            {{ 'DASHBOARD.MY_APPLICATIONS' | translate }}
+            <span class="section-badge section-badge--amber"
+              >{{ data().pendingApplicationsCount }} {{ 'DASHBOARD.PENDING' | translate }}</span
+            >
+          </h2>
+          <p class="section-subtitle">{{ 'DASHBOARD.MY_APPLICATIONS_SUBTITLE' | translate }}</p>
+        </div>
+        <a mat-button routerLink="/app/search" class="see-all-link">
+          {{ 'DASHBOARD.SEE_ALL' | translate }} <mat-icon>arrow_forward</mat-icon>
+        </a>
+      </div>
+
+      <div class="list-card">
+        @for (app of data().recentApplications; track app.id; let last = $last) {
+          <div class="list-item" [class.last]="last">
+            <div class="list-item__category">
+              @if (app.contract?.category?.slug | categoryLabel; as label) {
+                <span class="category-chip">{{ label }}</span>
+              }
+            </div>
+            <div class="list-item__content">
+              <span class="list-item__title">{{ app.contract?.title }}</span>
+              <div class="list-item__meta">
+                @if (app.contract?.address) {
+                  <span><mat-icon>location_on</mat-icon>{{ app.contract!.address }}</span>
+                }
+                @if (app.contract?.creator) {
+                  <span>
+                    <mat-icon>person</mat-icon>
+                    {{ 'DASHBOARD.CONTRACT_OF' | translate }}
+                    {{ app.contract!.creator!.first_name }}
+                    {{ app.contract!.creator!.last_name[0] }}.
+                  </span>
+                }
+              </div>
+            </div>
+            <div class="list-item__right">
+              <app-job-status-badge
+                [status]="
+                  app.status === 'pending'
+                    ? 'open'
+                    : app.status === 'accepted'
+                      ? 'assigned'
+                      : 'canceled'
+                "
+              />
+              @if (app.created_at) {
+                <span class="list-item__date"
+                  >{{ 'DASHBOARD.APPLIED_ON' | translate }}
+                  {{ app.created_at | date: 'dd.MM.yy' }}</span
+                >
+              }
+            </div>
+          </div>
+        }
+      </div>
+    </section>
+  }
+
+  @if (data().completedContracts.length > 0) {
+    <section class="dashboard-section">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">{{ 'DASHBOARD.RECENTLY_COMPLETED' | translate }}</h2>
+          <p class="section-subtitle">{{ 'DASHBOARD.RECENTLY_COMPLETED_SUBTITLE' | translate }}</p>
+        </div>
+        <a mat-button routerLink="/app/contracts" class="see-all-link">
+          {{ 'DASHBOARD.SEE_HISTORY' | translate }} <mat-icon>arrow_forward</mat-icon>
+        </a>
+      </div>
+
+      <div class="list-card">
+        @for (contract of data().completedContracts; track contract.id; let last = $last) {
+          <div class="list-item" [class.last]="last">
+            <div class="list-item__category">
+              @if (contract.category?.slug | categoryLabel; as label) {
+                <span class="category-chip">{{ label }}</span>
+              }
+            </div>
+            <div class="list-item__content">
+              <span class="list-item__title">{{ contract.title }}</span>
+              <div class="list-item__meta">
+                @if (contract.address) {
+                  <span><mat-icon>location_on</mat-icon>{{ contract.address }}</span>
+                }
+                @if (contract.completed_at) {
+                  <span
+                    ><mat-icon>calendar_today</mat-icon
+                    >{{ contract.completed_at | date: 'dd. MMM yyyy' }}</span
+                  >
+                }
+              </div>
+            </div>
+            <div class="list-item__right">
+              @if (contract.salary_per_hour) {
+                <span class="list-item__salary"
+                  >CHF {{ contract.salary_per_hour | number: '1.0-0' }}.-</span
+                >
+              }
+              <app-star-rating [rating]="contract.creator?.rating_avg ?? 0" [showCount]="false" />
+            </div>
+          </div>
+        }
+      </div>
+    </section>
+  }
+
+  <app-cta-banner
+    [actionLabel]="'CTA_BANNER_SEARCH.BUTTON'"
+    [actionUrl]="'/app/search'"
+    [title]="'CTA_BANNER_SEARCH.TITLE'"
+    [subtitle]="'CTA_BANNER_SEARCH.SUBTITLE'"
+  />
+</div>

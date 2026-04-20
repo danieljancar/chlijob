@@ -1,0 +1,52 @@
+<div class="search-page">
+  <h1 class="page-title">{{ 'SEARCH.TITLE' | translate }}</h1>
+
+  <div class="filter-bar" [formGroup]="filters">
+    <mat-form-field appearance="outline" subscriptSizing="dynamic">
+      <mat-label>{{ 'SEARCH.FILTER_CATEGORY' | translate }}</mat-label>
+      <mat-select formControlName="categoryId">
+        <mat-option [value]="null">{{ 'SEARCH.ALL_CATEGORIES' | translate }}</mat-option>
+        @for (cat of translatedCategories(); track cat.id) {
+          <mat-option [value]="cat.id">{{ cat.slug | categoryLabel }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" subscriptSizing="dynamic">
+      <mat-label>{{ 'SEARCH.FILTER_LOCATION' | translate }}</mat-label>
+      <mat-select formControlName="location">
+        <mat-option [value]="null">{{ 'SEARCH.ALL_LOCATIONS' | translate }}</mat-option>
+        @for (code of cantons; track code) {
+          <mat-option [value]="code">{{ 'CANTONS.' + code | translate }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <button mat-icon-button type="button" [disabled]="!hasActiveFilters()" (click)="resetFilters()">
+      <mat-icon>clear</mat-icon>
+    </button>
+  </div>
+
+  @if (loading()) {
+    <div class="loading-center">
+      <mat-spinner diameter="40" />
+    </div>
+  } @else if (contracts().length === 0) {
+    <div class="empty-state">
+      <mat-icon class="empty-icon">search_off</mat-icon>
+      <p>{{ 'SEARCH.EMPTY' | translate }}</p>
+    </div>
+  } @else {
+    <div class="results-grid">
+      @for (contract of contracts(); track contract.id) {
+        <app-job-card
+          [contract]="contract"
+          [showApply]="true"
+          [applying]="applyingId() === contract.id"
+          (apply)="apply($event)"
+          (categoryClick)="setCategoryFilter($event)"
+        />
+      }
+    </div>
+  }
+</div>

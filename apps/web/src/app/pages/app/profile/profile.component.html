@@ -66,8 +66,8 @@
         <mat-label>{{ 'PROFILE.LOCATION' | translate }}</mat-label>
         <mat-select formControlName="location">
           <mat-option value="">—</mat-option>
-          @for (canton of cantons; track canton.code) {
-            <mat-option [value]="canton.name">{{ canton.name }}</mat-option>
+          @for (code of cantons; track code) {
+            <mat-option [value]="code">{{ 'CANTONS.' + code | translate }}</mat-option>
           }
         </mat-select>
       </mat-form-field>
@@ -105,6 +105,26 @@
       <div class="info-item">
         <span class="info-label">{{ 'PROFILE.LAST_SIGN_IN' | translate }}</span>
         <span class="info-value">{{ lastSignIn | date: 'medium' }}</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2 class="section-title">{{ 'PROFILE.STATS' | translate }}</h2>
+    <mat-divider />
+    <div class="info-grid" style="margin-top: 16px">
+      <div class="info-item">
+        <span class="info-label">{{ 'PROFILE.RATING' | translate }}</span>
+        <span class="info-value">
+          @if ((auth.profile()?.review_count ?? 0) > 0) {
+            {{ auth.profile()?.rating_avg | number: '1.1-1' }} / 5 ({{
+              auth.profile()?.review_count
+            }}
+            {{ 'PROFILE.REVIEWS' | translate }})
+          } @else {
+            {{ 'PROFILE.NO_REVIEWS' | translate }}
+          }
+        </span>
       </div>
     </div>
   </section>

@@ -1,0 +1,81 @@
+<div class="job-card" [routerLink]="['/app/job', contract().id]">
+  @if (imageUrls().length > 0) {
+    <div class="job-card__carousel" (click)="$event.stopPropagation()">
+      <app-image-carousel [images]="imageUrls()" />
+    </div>
+  }
+
+  <div class="job-card__header">
+    <div class="job-card__title-row">
+      <h3 class="job-card__title">{{ contract().title }}</h3>
+      @if (contract().category?.slug | categoryLabel; as catLabel) {
+        <mat-chip-set>
+          <mat-chip
+            (click)="
+              contract().category_id && categoryClick.emit(contract().category_id!);
+              $event.stopPropagation()
+            "
+            >{{ catLabel }}</mat-chip
+          >
+        </mat-chip-set>
+      }
+    </div>
+
+    @if (contract().description) {
+      <p class="job-card__description">{{ contract().description }}</p>
+    }
+  </div>
+
+  <div class="job-card__meta">
+    @if (contract().salary_per_hour) {
+      <span class="job-card__meta-item">
+        <mat-icon>payments</mat-icon>
+        {{ contract().salary_per_hour | number: '1.2-2' }} {{ 'JOB_CARD.PER_HOUR' | translate }}
+      </span>
+    }
+    @if (contract().estimated_hours) {
+      <span class="job-card__meta-item">
+        <mat-icon>schedule</mat-icon>
+        {{ contract().estimated_hours }} {{ 'JOB_CARD.HOURS' | translate }}
+      </span>
+    }
+    @if (contract().address) {
+      <span class="job-card__meta-item">
+        <mat-icon>location_on</mat-icon>
+        {{ contract().address }}
+      </span>
+    }
+    @if (contract().preferred_date) {
+      <span class="job-card__meta-item">
+        <mat-icon>calendar_today</mat-icon>
+        {{ contract().preferred_date | date: 'mediumDate' }}
+      </span>
+    }
+  </div>
+
+  @if (contract().creator) {
+    <div class="job-card__creator">
+      <span class="job-card__creator-name">
+        {{ contract().creator!.first_name }} {{ contract().creator!.last_name }}
+      </span>
+      <app-star-rating
+        [rating]="contract().creator!.rating_avg"
+        [reviewCount]="contract().creator!.review_count"
+      />
+    </div>
+  }
+
+  @if (showApply()) {
+    <div class="job-card__actions" (click)="$event.stopPropagation()">
+      <button mat-flat-button [disabled]="applied() || applying()" (click)="apply.emit(contract())">
+        @if (applied()) {
+          {{ 'JOB_CARD.APPLIED' | translate }}
+        } @else if (applying()) {
+          {{ 'COMMON.LOADING' | translate }}
+        } @else {
+          {{ applyLabel() | translate }}
+        }
+      </button>
+    </div>
+  }
+</div>

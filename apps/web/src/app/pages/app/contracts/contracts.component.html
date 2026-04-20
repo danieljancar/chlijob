@@ -1,0 +1,94 @@
+<div class="contracts-page">
+  <h1 class="page-title">{{ 'CONTRACTS.TITLE' | translate }}</h1>
+
+  @if (loading()) {
+    <div class="loading-center">
+      <mat-spinner diameter="40" />
+    </div>
+  } @else {
+    <mat-tab-group>
+      <mat-tab [label]="'CONTRACTS.ACTIVE' | translate">
+        @if (activeContracts().length === 0) {
+          <div class="empty-state">
+            <mat-icon class="empty-icon">receipt_long</mat-icon>
+            <p>{{ 'CONTRACTS.EMPTY_ACTIVE' | translate }}</p>
+            <button mat-stroked-button routerLink="/app/search">
+              {{ 'CONTRACTS.FIND_JOBS' | translate }}
+            </button>
+          </div>
+        } @else {
+          <div class="contracts-list">
+            @for (contract of activeContracts(); track contract.id) {
+              <div class="contract-item">
+                <div class="contract-header">
+                  <div class="contract-title-row">
+                    <span class="contract-title">{{ contract.title }}</span>
+                    <app-job-status-badge [status]="contract.status" />
+                  </div>
+                  <span class="contract-role">
+                    {{
+                      isMyContract(contract)
+                        ? ('CONTRACTS.AS_GIVER' | translate)
+                        : ('CONTRACTS.AS_TAKER' | translate)
+                    }}
+                  </span>
+                </div>
+                <div class="contract-meta">
+                  @if (contract.salary_per_hour) {
+                    <span>{{ contract.salary_per_hour | number: '1.2-2' }} CHF/h</span>
+                  }
+                  @if (contract.category) {
+                    <span>{{ contract.category.name }}</span>
+                  }
+                  @if (contract.address) {
+                    <span>{{ contract.address }}</span>
+                  }
+                </div>
+              </div>
+            }
+          </div>
+        }
+      </mat-tab>
+
+      <mat-tab [label]="'CONTRACTS.HISTORY' | translate">
+        @if (historyContracts().length === 0) {
+          <div class="empty-state">
+            <mat-icon class="empty-icon">history</mat-icon>
+            <p>{{ 'CONTRACTS.EMPTY_HISTORY' | translate }}</p>
+          </div>
+        } @else {
+          <div class="contracts-list">
+            @for (contract of historyContracts(); track contract.id) {
+              <div class="contract-item">
+                <div class="contract-header">
+                  <div class="contract-title-row">
+                    <span class="contract-title">{{ contract.title }}</span>
+                    <app-job-status-badge [status]="contract.status" />
+                  </div>
+                  <span class="contract-role">
+                    {{
+                      isMyContract(contract)
+                        ? ('CONTRACTS.AS_GIVER' | translate)
+                        : ('CONTRACTS.AS_TAKER' | translate)
+                    }}
+                  </span>
+                </div>
+                <div class="contract-meta">
+                  @if (contract.salary_per_hour) {
+                    <span>{{ contract.salary_per_hour | number: '1.2-2' }} CHF/h</span>
+                  }
+                  @if (contract.category) {
+                    <span>{{ contract.category.name }}</span>
+                  }
+                  @if (contract.completed_at) {
+                    <span>{{ contract.completed_at | date: 'mediumDate' }}</span>
+                  }
+                </div>
+              </div>
+            }
+          </div>
+        }
+      </mat-tab>
+    </mat-tab-group>
+  }
+</div>

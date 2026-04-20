@@ -2,9 +2,7 @@ name: Release
 
 on:
   push:
-    branches:
-      - staging
-      - master
+    branches: [master]
 
 jobs:
   release:
@@ -21,22 +19,9 @@ jobs:
           VERSION=$(node -p "require('./apps/web/package.json').version")
           echo "value=$VERSION" >> $GITHUB_OUTPUT
 
-      - name: Resolve tag and release type
-        id: meta
-        run: |
-          if [ "${{ github.ref_name }}" = "master" ]; then
-            echo "tag=v${{ steps.version.outputs.value }}" >> $GITHUB_OUTPUT
-            echo "name=v${{ steps.version.outputs.value }}" >> $GITHUB_OUTPUT
-            echo "prerelease=false" >> $GITHUB_OUTPUT
-          else
-            echo "tag=v${{ steps.version.outputs.value }}-beta.${{ github.run_number }}" >> $GITHUB_OUTPUT
-            echo "name=v${{ steps.version.outputs.value }}-beta.${{ github.run_number }}" >> $GITHUB_OUTPUT
-            echo "prerelease=true" >> $GITHUB_OUTPUT
-          fi
-
       - name: Create GitHub release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ steps.meta.outputs.tag }}
-          prerelease: ${{ steps.meta.outputs.prerelease }}
+          tag_name: v${{ steps.version.outputs.value }}
+          name: v${{ steps.version.outputs.value }}
           generate_release_notes: true

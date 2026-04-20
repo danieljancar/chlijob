@@ -1,0 +1,13 @@
+<div class="cta-banner">
+  <div class="cta-banner__content">
+    <p class="cta-banner__title">{{ title() | translate }}</p>
+    @if (subtitle()) {
+      <p class="cta-banner__subtitle">{{ subtitle() | translate }}</p>
+    }
+  </div>
+  <div class="cta-banner__actions">
+    <button mat-flat-button [routerLink]="actionUrl()">
+      {{ actionLabel() | translate }}
+    </button>
+  </div>
+</div>
