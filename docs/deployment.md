@@ -1,33 +1,42 @@
 # Deployment
 
-> CD is not configured yet. This document describes the intended setup for when it is added.
+## Branch → environment mapping
 
-## Branch → Environment mapping
+| Branch    | Environment | Supabase project              |
+| --------- | ----------- | ----------------------------- |
+| `develop` | Local / dev | Docker (`localhost:54321`)    |
+| `master`  | Production  | Remote Supabase cloud project |
 
-| Branch / Trigger         | Environment | Supabase project                 |
-| ------------------------ | ----------- | -------------------------------- |
-| `develop`                | Local / dev | Docker (`localhost:54321`)       |
-| `master`                 | Staging     | Cloud project (to be configured) |
-| Git tag `v*` on `master` | Production  | Cloud project (to be configured) |
+## On push to `master`
 
-## Planned CI/CD setup
+### Database migrations — Supabase GitHub Integration
 
-When CD is added, the workflows will:
+Migrations are applied automatically via the **Supabase GitHub Integration** (configured in Supabase dashboard → Settings → Integrations → GitHub Integration). The `master` branch is connected to the production project — on every push, Supabase runs `supabase db push` automatically. No GitHub Actions secrets or workflow file required.
 
-1. **Staging** — trigger on push to `master`, inject secrets, build with `--configuration=staging`, push DB migrations, deploy to hosting
-2. **Production** — trigger on tag `v*`, inject secrets, build with `--configuration=production`, push DB migrations, deploy to hosting
+### GitHub release — `release.yml`
 
-Environment variables (`SUPABASE_URL`, `SUPABASE_ANON_KEY`, etc.) will be stored as
-GitHub Actions secrets scoped to their respective GitHub Environments (`staging`, `production`).
+Creates a GitHub release tagged `v{version}` with auto-generated release notes from commit history. Version is read from `apps/web/package.json`.
 
-## Manual builds
+## Production build
 
-```bash
-npm run build:staging   # build with staging config
-npm run build:prod      # build with production config
+The production Angular build uses `apps/web/src/environments/environment.prod.ts`. Fill in the values from Supabase dashboard → Project Settings → API:
+
+```typescript
+export const environment = {
+  production: true,
+  supabaseUrl: 'https://your-project-ref.supabase.co',
+  supabasePublishableKey: 'eyJ...',
+};
 ```
 
-## Hosting provider
+The anon/publishable key is safe to commit — it is a public key by design and is protected by RLS on the database.
 
-> [!WARNING]
-> Add the deploy step to `.github/workflows/deploy-staging.yml` and `deploy-production.yml` when ready.
+```bash
+npm run build:prod   # outputs to apps/web/dist/web/
+```
+
+## Hosting
+
+No hosting provider is configured yet. The `dist/web/` output is a standard static SPA bundle and can be deployed to any static host (Vercel, Netlify, Cloudflare Pages, etc.).
+
+The host must be configured to serve `index.html` for all routes (SPA fallback).

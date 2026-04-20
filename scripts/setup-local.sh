@@ -11,13 +11,16 @@ echo "==> Installing Angular app dependencies..."
 npm ci --prefix apps/web
 npm i
 
-echo "==> Starting Supabase local stack..."
+echo "==> Starting local Supabase stack..."
 supabase start
 
 echo ""
 echo "✓ Setup complete!"
 echo ""
 echo "Next steps:"
-echo "  1. Copy the Publishable key printed above"
-echo "  2. Paste it into apps/web/src/environments/environment.ts → supabasePublishableKey"
-echo "  3. Run: npm start --prefix apps/web"
+echo "  1. Copy apps/web/.env.example → apps/web/.env.local"
+echo "  2. Fill in the Publishable key printed above (or use remote prod values)"
+echo "  3. Run: npm start"
+echo ""
+echo "To point develop at the remote prod project instead of local:"
+echo "  Use the remote URL and anon key from Supabase dashboard → Project Settings → API"

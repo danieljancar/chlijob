@@ -5,7 +5,6 @@
     "prepare": "husky",
     "start": "npm start --prefix apps/web",
     "build": "npm run build --prefix apps/web",
-    "build:staging": "npm run build -- --configuration=staging --prefix apps/web",
     "build:prod": "npm run build -- --configuration=production --prefix apps/web",
     "test": "npm test --prefix apps/web",
     "lint": "npm run lint --prefix apps/web",

@@ -1,17 +1,17 @@
-# chlijobs
+# ChliJob
 
-Angular + Supabase monorepo.
+Swiss mini-job platform — Angular + Supabase monorepo.
 
 ## Stack
 
-- **Frontend:** Angular 21 + Angular Material
-- **Backend:** Supabase (Postgres, Auth, Storage, Edge Functions)
-- **CI:** GitHub Actions
+- **Frontend:** Angular 21 + Angular Material + ngx-translate
+- **Backend:** Supabase (Postgres, Auth, Storage)
+- **CI/CD:** GitHub Actions + Supabase GitHub Integration
 
 ## Quick start
 
 ```bash
-# First-time setup (installs deps, starts Supabase Docker stack)
+# First-time setup (installs deps, starts local Supabase Docker stack)
 npm run setup
 
 # Start dev server
@@ -21,41 +21,43 @@ npm start
 App → http://localhost:4200
 Supabase Studio → http://localhost:54323
 
+See [Local development](docs/local-dev.md) for the full workflow.
+
 ## Scripts
 
-| Command                  | Description                             |
-| ------------------------ | --------------------------------------- |
-| `npm start`              | Start Angular dev server                |
-| `npm run setup`          | First-time local setup                  |
-| `npm run db:reset`       | Reset DB (migrations + seed)            |
-| `npm run db:types`       | Regenerate TypeScript types from schema |
-| `npm run supabase:start` | Start local Supabase stack              |
-| `npm run supabase:stop`  | Stop local Supabase stack               |
-| `npm run build:staging`  | Build for staging                       |
-| `npm run build:prod`     | Build for production                    |
+| Command                   | Description                             |
+| ------------------------- | --------------------------------------- |
+| `npm start`               | Start Angular dev server (local)        |
+| `npm run setup`           | First-time local setup                  |
+| `npm run build`           | Build (development)                     |
+| `npm run build:prod`      | Build for production                    |
+| `npm run db:reset`        | Reset local DB (migrations + seed)      |
+| `npm run db:types`        | Regenerate TypeScript types from schema |
+| `npm run supabase:start`  | Start local Supabase stack              |
+| `npm run supabase:stop`   | Stop local Supabase stack               |
+| `npm run supabase:status` | Show local Supabase URLs and keys       |
 
 ## Branches
 
-| Branch    | Purpose                                     | Default |
-| --------- | ------------------------------------------- | ------- |
-| `develop` | Active development — all PRs target here    | Yes     |
-| `staging` | Pre-production / QA — promoted from develop | No      |
-| `master`  | Production — promoted from staging          | No      |
+| Branch    | Purpose                                  | Default |
+| --------- | ---------------------------------------- | ------- |
+| `develop` | Active development — all PRs target here | Yes     |
+| `master`  | Production — promoted from `develop`     | No      |
 
-**Flow:** `develop` → `staging` → `master`
+**Flow:** `develop` → `master`
 
-### CI
+## CI/CD
 
-Runs on every PR targeting `develop`, `staging`, or `master`: lint → test → build (production).
+### CI — runs on every PR to `develop` or `master`
 
-### Releases
+lint → test → build (production config)
 
-Triggered automatically on push to `staging` or `master`:
+### On push to `master`
 
-| Branch    | Tag                            | Type         |
-| --------- | ------------------------------ | ------------ |
-| `staging` | `v{version}-beta.{run_number}` | Pre-release  |
-| `master`  | `v{version}`                   | Full release |
+| What           | How                                                            |
+| -------------- | -------------------------------------------------------------- |
+| DB migrations  | Supabase GitHub Integration (configured in Supabase dashboard) |
+| GitHub release | `release.yml` — creates a release tagged `v{version}`          |
 
 Version is read from `apps/web/package.json`. Release notes are auto-generated from commit history.
 
