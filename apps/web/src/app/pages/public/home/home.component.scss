@@ -1,10 +1,19 @@
+.home-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-image: url('/hero-bg.svg');
+  background-size: cover;
+  background-position: center;
+}
+
 .hero {
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 80px 24px;
-  background: var(--mat-sys-surface-container-lowest);
+  margin-bottom: 3rem;
 }
 
 .hero-content {
@@ -46,4 +55,35 @@
   height: 48px;
   padding: 0 28px;
   font-size: 15px;
+}
+
+.features {
+  width: 100%;
+  max-width: 900px;
+  margin: 40px auto;
+}
+
+.features-title {
+  text-align: center;
+  font-size: clamp(24px, 5vw, 32px);
+  margin-bottom: 24px;
+}
+
+.features-carousel {
+  display: flex;
+  gap: 24px;
+  overflow-x: auto;
+  padding-bottom: 16px;
+}
+
+@media (max-width: 480px) {
+  .features-carousel {
+    margin: 3rem 3rem;
+  }
+}
+
+.faq-section {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 0 24px;
 }

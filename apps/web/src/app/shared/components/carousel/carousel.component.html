@@ -1,0 +1,41 @@
+<div
+  class="carousel"
+  (mouseenter)="stopTimer()"
+  (mouseleave)="startTimer()"
+  (touchstart)="onTouchStart($event)"
+  (touchend)="onTouchEnd($event)"
+>
+  <div class="carousel__track">
+    @for (item of carouselItems(); track item.image; let i = $index) {
+      <div class="carousel__slide" [class.active]="i === currentIndex()">
+        <img
+          [src]="item.image"
+          [alt]="item.titleKey ? (item.titleKey | translate) : 'Slide ' + (i + 1)"
+        />
+        @if (item.titleKey || item.subtitleKey) {
+          <div class="carousel__overlay">
+            @if (item.titleKey) {
+              <h2 class="carousel__title">{{ item.titleKey | translate }}</h2>
+            }
+            @if (item.subtitleKey) {
+              <p class="carousel__subtitle">{{ item.subtitleKey | translate }}</p>
+            }
+          </div>
+        }
+      </div>
+    }
+  </div>
+
+  <button class="carousel__btn carousel__btn--prev" (click)="prev()">
+    <mat-icon>chevron_left</mat-icon>
+  </button>
+  <button class="carousel__btn carousel__btn--next" (click)="next()">
+    <mat-icon>chevron_right</mat-icon>
+  </button>
+
+  <div class="carousel__dots">
+    @for (item of carouselItems(); track item.image; let i = $index) {
+      <span class="carousel__dot" [class.active]="i === currentIndex()" (click)="goTo(i)"> </span>
+    }
+  </div>
+</div>
