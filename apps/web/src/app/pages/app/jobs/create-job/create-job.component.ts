@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
@@ -13,31 +14,33 @@ import { CategoryLabelPipe } from '../../../../shared/pipes/category-label.pipe'
 import type { Category } from '../../../../core/types';
 
 @Component({
-  selector: 'app-create-job-dialog',
+  selector: 'app-create-job',
   standalone: true,
   imports: [
     ReactiveFormsModule,
     MatButtonModule,
     MatDatepickerModule,
-    MatDialogModule,
     MatFormFieldModule,
+    MatIconModule,
     MatInputModule,
     MatSelectModule,
     TranslatePipe,
     CategoryLabelPipe,
   ],
-  templateUrl: './create-job-dialog.component.html',
-  styleUrl: './create-job-dialog.component.scss',
+  templateUrl: './create-job.component.html',
+  styleUrl: './create-job.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CreateJobDialogComponent implements OnInit {
-  private dialogRef = inject(MatDialogRef<CreateJobDialogComponent>);
+export class CreateJobComponent implements OnInit {
+  private router = inject(Router);
   private contractService = inject(ContractService);
   private notify = inject(NotificationService);
   private translate = inject(TranslateService);
 
   protected categories = signal<Category[]>([]);
   protected saving = signal(false);
+  protected pendingFiles = signal<File[]>([]);
+  protected previewUrls = signal<string[]>([]);
 
   protected form = new FormGroup({
     title: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
@@ -60,12 +63,34 @@ export class CreateJobDialogComponent implements OnInit {
     );
   }
 
+  protected onFilesSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (!input.files) return;
+
+    const remaining = 5 - this.pendingFiles().length;
+    const selected = Array.from(input.files).slice(0, remaining);
+
+    this.pendingFiles.update((files) => [...files, ...selected]);
+    selected.forEach((file) => {
+      const reader = new FileReader();
+      reader.onload = () => this.previewUrls.update((urls) => [...urls, reader.result as string]);
+      reader.readAsDataURL(file);
+    });
+
+    input.value = '';
+  }
+
+  protected removeImage(index: number): void {
+    this.pendingFiles.update((files) => files.filter((_, i) => i !== index));
+    this.previewUrls.update((urls) => urls.filter((_, i) => i !== index));
+  }
+
   protected async submit(): Promise<void> {
     if (this.form.invalid || this.saving()) return;
     this.saving.set(true);
 
     const v = this.form.getRawValue();
-    const { error } = await this.contractService.createContract({
+    const { id, error } = await this.contractService.createContract({
       title: v.title.trim(),
       description: v.description.trim() || null,
       category_id: v.category_id,
@@ -75,16 +100,21 @@ export class CreateJobDialogComponent implements OnInit {
       preferred_date: v.preferred_date || null,
     });
 
-    if (error) {
+    if (error || !id) {
       this.notify.error('NOTIFY.CREATE_JOB_ERROR');
-    } else {
-      this.notify.success('NOTIFY.CREATE_JOB_SUCCESS');
-      this.dialogRef.close(true);
+      this.saving.set(false);
+      return;
     }
-    this.saving.set(false);
+
+    if (this.pendingFiles().length > 0) {
+      await this.contractService.uploadContractImages(id, this.pendingFiles());
+    }
+
+    this.notify.success('NOTIFY.CREATE_JOB_SUCCESS');
+    await this.router.navigate(['/app/jobs']);
   }
 
   protected cancel(): void {
-    this.dialogRef.close(false);
+    this.router.navigate(['/app/jobs']);
   }
 }
