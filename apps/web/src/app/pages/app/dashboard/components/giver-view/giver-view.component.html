@@ -1,0 +1,156 @@
+<div class="giver-view">
+  <div class="stats-row">
+    <app-stat-card
+      icon="receipt_long"
+      [value]="data().openContracts.length"
+      [label]="'DASHBOARD.STAT_OPEN_CONTRACTS' | translate"
+      [sublabel]="'DASHBOARD.ACTIVE_LISTED' | translate"
+      color="green"
+    />
+    <app-stat-card
+      icon="edit_note"
+      [value]="data().pendingApplicationsCount"
+      [label]="'DASHBOARD.STAT_NEW_APPLICATIONS' | translate"
+      [sublabel]="'DASHBOARD.PENDING' | translate"
+      color="amber"
+    />
+    <app-stat-card
+      icon="check_circle"
+      [value]="data().completedCount"
+      [label]="'DASHBOARD.STAT_COMPLETED' | translate"
+      [sublabel]="'DASHBOARD.TOTAL' | translate"
+      color="purple"
+    />
+    <app-stat-card
+      icon="grade"
+      [value]="'—'"
+      [label]="'DASHBOARD.STAT_RATING' | translate"
+      [sublabel]="'DASHBOARD.AS_GIVER' | translate"
+      color="blue"
+    />
+  </div>
+
+  @if (data().openContracts.length > 0) {
+    <section class="dashboard-section">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">
+            {{ 'DASHBOARD.MY_CONTRACTS' | translate }}
+            <span class="section-badge section-badge--green"
+              >{{ data().openContracts.length }} {{ 'DASHBOARD.OPEN' | translate }}</span
+            >
+          </h2>
+          <p class="section-subtitle">{{ 'DASHBOARD.MY_CONTRACTS_SUBTITLE' | translate }}</p>
+        </div>
+        <a mat-button routerLink="/app/jobs" class="see-all-link">
+          {{ 'DASHBOARD.MANAGE_ALL' | translate }} <mat-icon>arrow_forward</mat-icon>
+        </a>
+      </div>
+
+      <div class="contracts-grid">
+        @for (contract of data().openContracts; track contract.id) {
+          <div class="contract-card">
+            <div class="contract-card__body">
+              <div class="contract-card__title-row">
+                <span class="contract-card__title">{{ contract.title }}</span>
+                @if (contract.category?.slug | categoryLabel; as label) {
+                  <span class="category-chip">{{ label }}</span>
+                }
+              </div>
+              @if (contract.description) {
+                <p class="contract-card__desc">{{ contract.description }}</p>
+              }
+              <div class="contract-card__meta">
+                @if (contract.address) {
+                  <span><mat-icon>location_on</mat-icon>{{ contract.address }}</span>
+                }
+                @if (contract.preferred_date) {
+                  <span
+                    ><mat-icon>calendar_today</mat-icon
+                    >{{ contract.preferred_date | date: 'dd. MMM' }}</span
+                  >
+                }
+              </div>
+            </div>
+            <div class="contract-card__footer">
+              @if (contract.salary_per_hour) {
+                <span class="contract-card__salary"
+                  >CHF {{ contract.salary_per_hour | number: '1.0-0' }}/h</span
+                >
+              }
+              <a mat-stroked-button [routerLink]="['/app/jobs']" class="apps-btn">
+                <mat-icon>group</mat-icon>
+                {{ 'DASHBOARD.APPLICATIONS' | translate }} ({{ contract.applicationCount }})
+              </a>
+            </div>
+          </div>
+        }
+      </div>
+    </section>
+  }
+
+  @if (data().pendingApplications.length > 0) {
+    <section class="dashboard-section">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">
+            {{ 'DASHBOARD.NEW_APPLICATIONS' | translate }}
+            <span class="section-badge section-badge--amber"
+              >{{ data().pendingApplicationsCount }} {{ 'DASHBOARD.NEW' | translate }}</span
+            >
+          </h2>
+          <p class="section-subtitle">{{ 'DASHBOARD.NEW_APPLICATIONS_SUBTITLE' | translate }}</p>
+        </div>
+      </div>
+
+      <div class="list-card">
+        @for (app of data().pendingApplications; track app.id; let last = $last) {
+          <div class="application-item" [class.last]="last">
+            <div class="applicant-avatar">
+              {{ initials(app.profile?.first_name ?? '?', app.profile?.last_name ?? '?') }}
+            </div>
+            <div class="applicant-info">
+              <span class="applicant-name">
+                {{ app.profile?.first_name }} {{ app.profile?.last_name }}
+              </span>
+              <span class="applied-to"
+                >{{ 'DASHBOARD.APPLIED_TO' | translate }}: {{ app.contract?.title }}</span
+              >
+              <app-star-rating
+                [rating]="app.profile?.rating_avg ?? 0"
+                [reviewCount]="app.profile?.review_count ?? 0"
+              />
+            </div>
+            <div class="application-actions">
+              @if (app.created_at) {
+                <span class="app-date">{{ app.created_at | date: 'dd.MM.yy' }}</span>
+              }
+              <button
+                mat-stroked-button
+                class="reject-btn"
+                [disabled]="actionInProgress() === app.id"
+                (click)="reject(app.id)"
+              >
+                {{ 'JOBS.REJECT' | translate }}
+              </button>
+              <button
+                mat-flat-button
+                [disabled]="actionInProgress() === app.id"
+                (click)="accept(app.id)"
+              >
+                {{ 'JOBS.ACCEPT' | translate }}
+              </button>
+            </div>
+          </div>
+        }
+      </div>
+    </section>
+  }
+
+  <app-cta-banner
+    [actionLabel]="'CTA_BANNER_SEARCH.BUTTON'"
+    [actionUrl]="'/app/search'"
+    [title]="'CTA_BANNER_SEARCH.TITLE'"
+    [subtitle]="'CTA_BANNER_SEARCH.SUBTITLE'"
+  />
+</div>
