@@ -132,6 +132,7 @@ export type Database = {
           longitude: number | null;
           preferred_date: string | null;
           salary_per_hour: number | null;
+          status: string;
           taker_id: string | null;
           title: string;
           updated_at: string | null;
@@ -150,6 +151,7 @@ export type Database = {
           longitude?: number | null;
           preferred_date?: string | null;
           salary_per_hour?: number | null;
+          status?: string;
           taker_id?: string | null;
           title: string;
           updated_at?: string | null;
@@ -168,6 +170,7 @@ export type Database = {
           longitude?: number | null;
           preferred_date?: string | null;
           salary_per_hour?: number | null;
+          status?: string;
           taker_id?: string | null;
           title?: string;
           updated_at?: string | null;
@@ -310,7 +313,10 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
-      [_ in never]: never;
+      accept_application: {
+        Args: { p_application_id: number };
+        Returns: undefined;
+      };
     };
     Enums: {
       [_ in never]: never;

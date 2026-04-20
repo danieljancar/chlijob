@@ -1,10 +1,41 @@
 .job-card {
   background: var(--mat-sys-surface-container-low);
   border-radius: 16px;
-  padding: 20px;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   gap: 12px;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  transition: box-shadow 0.2s;
+
+  &:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.job-card__carousel {
+  margin: 0;
+}
+
+.job-card__header,
+.job-card__meta,
+.job-card__creator,
+.job-card__actions {
+  padding: 0 20px;
+}
+
+.job-card__header {
+  padding-top: 20px;
+}
+
+.job-card__actions {
+  padding-bottom: 20px;
+}
+
+.job-card__creator {
+  padding-bottom: 4px;
 }
 
 .job-card__header {

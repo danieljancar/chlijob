@@ -7,6 +7,7 @@ export type Contract = Database['public']['Tables']['contracts']['Row'];
 export type ContractInsert = Database['public']['Tables']['contracts']['Insert'];
 export type Category = Database['public']['Tables']['categories']['Row'];
 export type Application = Database['public']['Tables']['applications']['Row'];
+export type ContractImage = Database['public']['Tables']['contract_images']['Row'];
 
 export interface ContractCreatorProfile {
   id: string;
@@ -22,6 +23,7 @@ export interface ContractCreatorProfile {
 export interface ContractWithDetails extends Contract {
   category: Category | null;
   creator: ContractCreatorProfile | null;
+  images?: ContractImage[];
 }
 
 export interface ApplicationApplicantProfile {

@@ -68,7 +68,26 @@ export const routes: Routes = [
       },
       {
         path: 'jobs',
-        loadComponent: () => import('./pages/app/jobs/jobs.component').then((m) => m.JobsComponent),
+        children: [
+          {
+            path: '',
+            pathMatch: 'full',
+            loadComponent: () =>
+              import('./pages/app/jobs/jobs.component').then((m) => m.JobsComponent),
+          },
+          {
+            path: 'create',
+            loadComponent: () =>
+              import('./pages/app/jobs/create-job/create-job.component').then(
+                (m) => m.CreateJobComponent,
+              ),
+          },
+        ],
+      },
+      {
+        path: 'job/:id',
+        loadComponent: () =>
+          import('./pages/app/job-detail/job-detail.component').then((m) => m.JobDetailComponent),
       },
       {
         path: 'contracts',

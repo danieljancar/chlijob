@@ -1,0 +1,117 @@
+<div class="job-detail-page">
+  @if (loading()) {
+    <div class="loading-center">
+      <mat-spinner diameter="40" />
+    </div>
+  } @else if (contract(); as c) {
+    <div class="page-header">
+      <button mat-icon-button (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <h1 class="page-title">{{ c.title }}</h1>
+    </div>
+
+    @if (imageUrls().length > 0) {
+      <div class="carousel-wrapper">
+        <app-image-carousel [images]="imageUrls()" />
+      </div>
+    }
+
+    <div class="detail-card card">
+      <div class="detail-header">
+        <div class="title-row">
+          <h2 class="job-title">{{ c.title }}</h2>
+          @if (c.category?.slug | categoryLabel; as catLabel) {
+            <mat-chip-set>
+              <mat-chip (click)="filterByCategory(c.category_id)">{{ catLabel }}</mat-chip>
+            </mat-chip-set>
+          }
+        </div>
+
+        @if (c.description) {
+          <p class="job-description">{{ c.description }}</p>
+        }
+      </div>
+
+      <mat-divider />
+
+      <div class="meta-grid">
+        @if (c.salary_per_hour) {
+          <div class="meta-item">
+            <mat-icon>payments</mat-icon>
+            <div>
+              <span class="meta-label">{{ 'JOB_DETAIL.SALARY' | translate }}</span>
+              <span class="meta-value"
+                >{{ c.salary_per_hour | number: '1.2-2' }}
+                {{ 'JOB_CARD.PER_HOUR' | translate }}</span
+              >
+            </div>
+          </div>
+        }
+        @if (c.estimated_hours) {
+          <div class="meta-item">
+            <mat-icon>schedule</mat-icon>
+            <div>
+              <span class="meta-label">{{ 'JOB_DETAIL.HOURS' | translate }}</span>
+              <span class="meta-value"
+                >{{ c.estimated_hours }} {{ 'JOB_CARD.HOURS' | translate }}</span
+              >
+            </div>
+          </div>
+        }
+        @if (c.address) {
+          <div class="meta-item">
+            <mat-icon>location_on</mat-icon>
+            <div>
+              <span class="meta-label">{{ 'JOB_DETAIL.ADDRESS' | translate }}</span>
+              <span class="meta-value">{{ c.address }}</span>
+            </div>
+          </div>
+        }
+        @if (c.preferred_date) {
+          <div class="meta-item">
+            <mat-icon>calendar_today</mat-icon>
+            <div>
+              <span class="meta-label">{{ 'JOB_DETAIL.DATE' | translate }}</span>
+              <span class="meta-value">{{ c.preferred_date | date: 'longDate' }}</span>
+            </div>
+          </div>
+        }
+      </div>
+
+      @if (c.creator) {
+        <mat-divider />
+        <div class="creator-section">
+          <h3 class="section-label">{{ 'JOB_DETAIL.POSTED_BY' | translate }}</h3>
+          <div class="creator-info">
+            <div class="creator-name">{{ c.creator.first_name }} {{ c.creator.last_name }}</div>
+            <app-star-rating
+              [rating]="c.creator.rating_avg"
+              [reviewCount]="c.creator.review_count"
+            />
+          </div>
+        </div>
+      }
+
+      @if (!isOwnContract() && isOpen()) {
+        <mat-divider />
+        <div class="apply-section">
+          <button
+            mat-flat-button
+            class="apply-btn"
+            [disabled]="applied() || applying()"
+            (click)="apply()"
+          >
+            @if (applied()) {
+              {{ 'JOB_CARD.APPLIED' | translate }}
+            } @else if (applying()) {
+              {{ 'COMMON.LOADING' | translate }}
+            } @else {
+              {{ 'JOB_CARD.APPLY' | translate }}
+            }
+          </button>
+        </div>
+      }
+    </div>
+  }
+</div>

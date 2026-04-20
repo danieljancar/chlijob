@@ -9,6 +9,7 @@ export type {
   ContractInsert,
   Category,
   Application,
+  ContractImage,
   ContractCreatorProfile,
   ContractWithDetails,
   ApplicationApplicantProfile,

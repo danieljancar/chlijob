@@ -1,10 +1,22 @@
-<div class="job-card">
+<div class="job-card" [routerLink]="['/app/job', contract().id]">
+  @if (imageUrls().length > 0) {
+    <div class="job-card__carousel" (click)="$event.stopPropagation()">
+      <app-image-carousel [images]="imageUrls()" />
+    </div>
+  }
+
   <div class="job-card__header">
     <div class="job-card__title-row">
       <h3 class="job-card__title">{{ contract().title }}</h3>
       @if (contract().category?.slug | categoryLabel; as catLabel) {
         <mat-chip-set>
-          <mat-chip>{{ catLabel }}</mat-chip>
+          <mat-chip
+            (click)="
+              contract().category_id && categoryClick.emit(contract().category_id!);
+              $event.stopPropagation()
+            "
+            >{{ catLabel }}</mat-chip
+          >
         </mat-chip-set>
       }
     </div>
@@ -54,7 +66,7 @@
   }
 
   @if (showApply()) {
-    <div class="job-card__actions">
+    <div class="job-card__actions" (click)="$event.stopPropagation()">
       <button mat-flat-button [disabled]="applied() || applying()" (click)="apply.emit(contract())">
         @if (applied()) {
           {{ 'JOB_CARD.APPLIED' | translate }}

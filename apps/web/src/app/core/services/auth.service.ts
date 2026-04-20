@@ -77,10 +77,13 @@ export class AuthService {
           this.session.set(null);
           this.profile.set(null);
           this.loading.set(false);
-          // Involuntary sign-out (expired/invalid token): notify and redirect.
-          if (!this.signingOut && this.router.url.startsWith('/app')) {
-            this.notify.warning('NOTIFY.SESSION_EXPIRED');
-            this.router.navigate(['/auth/login']);
+          if (!this.signingOut) {
+            const onApp =
+              this.router.url.startsWith('/app') || window.location.pathname.startsWith('/app');
+            if (onApp) {
+              this.notify.warning('NOTIFY.SESSION_EXPIRED');
+              this.router.navigate(['/auth/login']);
+            }
           }
           break;
       }
@@ -161,20 +164,25 @@ export class AuthService {
     password: string,
     data: RegisterData,
   ): Promise<{ error: AuthError | null }> {
-    const { data: authData, error } = await this.supabase.client.auth.signUp({ email, password });
+    // Pass registration fields as user_metadata so the handle_new_user trigger
+    // can write them atomically — no separate profile upsert needed.
+    const { data: authData, error } = await this.supabase.client.auth.signUp({
+      email,
+      password,
+      options: { data },
+    });
     if (error || !authData.user) return { error };
 
-    const { error: profileError } = await this.supabase.client.from('profiles').upsert({
-      id: authData.user.id,
-      ...data,
-    });
-
-    if (!profileError && authData.session) {
+    if (authData.session) {
+      // Email confirmation is disabled: session is available immediately.
       this.session.set(authData.session);
       await this.loadProfile(authData.user.id);
       await this.router.navigate(['/app']);
     }
-    return { error: profileError as unknown as AuthError };
+    // If authData.session is null, email confirmation is required.
+    // The register component shows a success notification and the user
+    // confirms their email before logging in.
+    return { error: null };
   }
 
   async signOut(): Promise<void> {

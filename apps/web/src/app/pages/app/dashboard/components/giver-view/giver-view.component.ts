@@ -5,7 +5,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslatePipe } from '@ngx-translate/core';
 import { StatCardComponent } from '../stat-card/stat-card.component';
-import { JobStatusBadgeComponent } from '../../../../../shared/components/job-status-badge/job-status-badge.component';
 import { StarRatingComponent } from '../../../../../shared/components/star-rating/star-rating.component';
 import { CategoryLabelPipe } from '../../../../../shared/pipes/category-label.pipe';
 import { CtaBanner } from '../../../../../shared/components/cta-banner/cta-banner';
@@ -24,7 +23,6 @@ import type { GiverDashboardData } from '../../../../../core/types';
     MatIconModule,
     TranslatePipe,
     StatCardComponent,
-    JobStatusBadgeComponent,
     StarRatingComponent,
     CategoryLabelPipe,
     CtaBanner,

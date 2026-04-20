@@ -22,13 +22,25 @@ export class ContractService {
     categoryId?: number | null;
     location?: string | null;
   }): Promise<ContractWithDetails[]> {
+    const userId = this.auth.session()?.user.id;
+
+    const appliedIds = await this.getAppliedContractIds();
+
     let query = this.supabase.client
       .from('contracts')
       .select(
-        `*, category:categories(*), creator:profiles!creator_id(id, first_name, last_name, rating_avg, review_count, avatar_path, avatar_blurhash, location)`,
+        `*, category:categories(*), creator:profiles!creator_id(id, first_name, last_name, rating_avg, review_count, avatar_path, avatar_blurhash, location), images:contract_images(*)`,
       )
       .eq('status', 'open')
       .order('created_at', { ascending: false });
+
+    if (userId) {
+      query = query.neq('creator_id', userId);
+    }
+
+    if (appliedIds.length > 0) {
+      query = query.not('id', 'in', `(${appliedIds.join(',')})`);
+    }
 
     if (filters?.categoryId) {
       query = query.eq('category_id', filters.categoryId);
@@ -42,6 +54,18 @@ export class ContractService {
     }
 
     return results;
+  }
+
+  async getContractById(id: number): Promise<ContractWithDetails | null> {
+    const { data } = await this.supabase.client
+      .from('contracts')
+      .select(
+        `*, category:categories(*), creator:profiles!creator_id(id, first_name, last_name, rating_avg, review_count, avatar_path, avatar_blurhash, location), images:contract_images(*)`,
+      )
+      .eq('id', id)
+      .maybeSingle();
+
+    return data as unknown as ContractWithDetails | null;
   }
 
   async getMyContracts(): Promise<ContractWithDetails[]> {
@@ -102,16 +126,37 @@ export class ContractService {
     return (data ?? []) as unknown as ApplicationWithProfile[];
   }
 
-  async createContract(data: CreateContractData): Promise<{ error: Error | null }> {
+  async createContract(
+    data: CreateContractData,
+  ): Promise<{ id: number | null; error: Error | null }> {
     const userId = this.auth.session()?.user.id;
-    if (!userId) return { error: new Error('Not authenticated') };
+    if (!userId) return { id: null, error: new Error('Not authenticated') };
 
-    const { error } = await this.supabase.client.from('contracts').insert({
-      ...data,
-      creator_id: userId,
-    });
+    const { data: inserted, error } = await this.supabase.client
+      .from('contracts')
+      .insert({ ...data, creator_id: userId })
+      .select('id')
+      .single();
 
-    return { error: error as Error | null };
+    return { id: inserted?.id ?? null, error: error as Error | null };
+  }
+
+  async uploadContractImages(contractId: number, files: File[]): Promise<void> {
+    for (const file of files) {
+      const ext = file.name.split('.').pop() ?? 'jpg';
+      const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+      const imagePath = `${contractId}/${fileName}`;
+
+      const { error: uploadError } = await this.supabase
+        .storage('contract-images')
+        .upload(imagePath, file, { upsert: false });
+
+      if (uploadError) continue;
+
+      await this.supabase.client
+        .from('contract_images')
+        .insert({ contract_id: contractId, image_path: imagePath });
+    }
   }
 
   async applyToContract(contractId: number, text?: string): Promise<{ error: Error | null }> {
@@ -154,5 +199,17 @@ export class ContractService {
       .maybeSingle();
 
     return data !== null;
+  }
+
+  private async getAppliedContractIds(): Promise<number[]> {
+    const userId = this.auth.session()?.user.id;
+    if (!userId) return [];
+
+    const { data } = await this.supabase.client
+      .from('applications')
+      .select('contract_id')
+      .eq('user_id', userId);
+
+    return (data ?? []).map((a) => a.contract_id).filter((id): id is number => id !== null);
   }
 }

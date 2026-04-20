@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { DecimalPipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialog } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
@@ -10,7 +10,6 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { ContractService } from '../../../core/services/contract.service';
 import { NotificationService } from '../../../core/services/notification.service';
 import type { ApplicationWithProfile, ContractWithDetails } from '../../../core/types';
-import { CreateJobDialogComponent } from './create-job-dialog/create-job-dialog.component';
 import { JobStatusBadgeComponent } from '../../../shared/components/job-status-badge/job-status-badge.component';
 import { StarRatingComponent } from '../../../shared/components/star-rating/star-rating.component';
 import { CategoryLabelPipe } from '../../../shared/pipes/category-label.pipe';
@@ -35,7 +34,7 @@ import { CategoryLabelPipe } from '../../../shared/pipes/category-label.pipe';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class JobsComponent implements OnInit {
-  private dialog = inject(MatDialog);
+  private router = inject(Router);
   private contractService = inject(ContractService);
   private notify = inject(NotificationService);
 
@@ -54,14 +53,8 @@ export class JobsComponent implements OnInit {
     this.loading.set(false);
   }
 
-  protected openCreateDialog(): void {
-    const ref = this.dialog.open(CreateJobDialogComponent, {
-      width: '520px',
-      maxWidth: '95vw',
-    });
-    ref.afterClosed().subscribe((created) => {
-      if (created) this.loadContracts();
-    });
+  protected navigateToCreate(): void {
+    this.router.navigate(['/app/jobs/create']);
   }
 
   protected async loadApplications(contractId: number): Promise<void> {

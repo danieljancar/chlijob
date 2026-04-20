@@ -42,9 +42,9 @@
         <app-job-card
           [contract]="contract"
           [showApply]="true"
-          [applied]="isApplied(contract.id)"
           [applying]="applyingId() === contract.id"
           (apply)="apply($event)"
+          (categoryClick)="setCategoryFilter($event)"
         />
       }
     </div>

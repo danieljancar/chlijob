@@ -1,7 +1,7 @@
 <div class="jobs-page">
   <div class="page-header">
     <h1 class="page-title">{{ 'JOBS.TITLE' | translate }}</h1>
-    <button mat-flat-button (click)="openCreateDialog()">
+    <button mat-flat-button (click)="navigateToCreate()">
       <mat-icon>add</mat-icon>
       {{ 'JOBS.NEW_JOB' | translate }}
     </button>
@@ -15,7 +15,7 @@
     <div class="empty-state">
       <mat-icon class="empty-icon">cases</mat-icon>
       <p>{{ 'JOBS.EMPTY' | translate }}</p>
-      <button mat-stroked-button (click)="openCreateDialog()">
+      <button mat-stroked-button (click)="navigateToCreate()">
         {{ 'JOBS.CREATE_FIRST' | translate }}
       </button>
     </div>

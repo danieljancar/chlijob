@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -35,13 +36,12 @@ export class SearchComponent implements OnInit {
   private contractService = inject(ContractService);
   private notify = inject(NotificationService);
   private translate = inject(TranslateService);
+  private route = inject(ActivatedRoute);
 
   protected readonly cantons = SWISS_CANTONS;
 
-  protected categories = signal<Category[]>([]);
   protected translatedCategories = signal<Category[]>([]);
   protected contracts = signal<ContractWithDetails[]>([]);
-  protected appliedIds = signal<Set<number>>(new Set());
   protected applyingId = signal<number | null>(null);
   protected loading = signal(true);
 
@@ -52,7 +52,6 @@ export class SearchComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     const all = await this.contractService.getCategories();
-    this.categories.set(all);
     this.translatedCategories.set(
       all.filter((c) => {
         if (!c.slug) return false;
@@ -60,6 +59,12 @@ export class SearchComponent implements OnInit {
         return this.translate.instant(key) !== key;
       }),
     );
+
+    const queryParams = this.route.snapshot.queryParams;
+    if (queryParams['categoryId']) {
+      this.filters.patchValue({ categoryId: Number(queryParams['categoryId']) });
+    }
+
     await this.search();
 
     this.filters.valueChanges.subscribe(() => this.search());
@@ -72,6 +77,10 @@ export class SearchComponent implements OnInit {
   protected hasActiveFilters(): boolean {
     const v = this.filters.getRawValue();
     return v.categoryId !== null || v.location !== null;
+  }
+
+  protected setCategoryFilter(categoryId: number): void {
+    this.filters.patchValue({ categoryId });
   }
 
   protected async search(): Promise<void> {
@@ -93,12 +102,8 @@ export class SearchComponent implements OnInit {
       this.notify.error('NOTIFY.APPLY_ERROR');
     } else {
       this.notify.success('NOTIFY.APPLY_SUCCESS');
-      this.appliedIds.update((s) => new Set(s).add(contract.id));
+      this.contracts.update((list) => list.filter((c) => c.id !== contract.id));
     }
     this.applyingId.set(null);
-  }
-
-  protected isApplied(contractId: number): boolean {
-    return this.appliedIds().has(contractId);
   }
 }
