@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  inject,
+  OnInit,
+  signal,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -37,6 +45,7 @@ export class SearchComponent implements OnInit {
   private notify = inject(NotificationService);
   private translate = inject(TranslateService);
   private route = inject(ActivatedRoute);
+  private destroyRef = inject(DestroyRef);
 
   protected readonly cantons = SWISS_CANTONS;
 
@@ -67,7 +76,9 @@ export class SearchComponent implements OnInit {
 
     await this.search();
 
-    this.filters.valueChanges.subscribe(() => this.search());
+    this.filters.valueChanges
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.search());
   }
 
   protected resetFilters(): void {
