@@ -144,6 +144,7 @@
     "SALARY": "Stundenlohn (CHF)",
     "HOURS": "Geschätzte Stunden",
     "LUMP_SUM": "Pauschalbetrag (CHF)",
+    "TAKER_AMOUNT": "Nehmer-Anzahl",
     "ADDRESS": "Adresse / Ort",
     "DATE": "Gewünschtes Datum",
     "IMAGES": "Fotos",

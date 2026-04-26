@@ -52,6 +52,7 @@ export class CreateJobComponent implements OnInit {
     salary_per_hour: new FormControl<number | null>(null, [Validators.min(1)]),
     estimated_hours: new FormControl<number | null>(null, [Validators.min(0.5)]),
     lump_sum: new FormControl<number | null>(null, [Validators.min(1)]),
+    taker_amount: new FormControl<number | null>(1, [Validators.min(1), Validators.max(20)]),
     address: new FormControl('', { nonNullable: true }),
     preferred_date: new FormControl('', { nonNullable: true }),
   });
@@ -102,6 +103,7 @@ export class CreateJobComponent implements OnInit {
       salary_per_hour: v.salary_per_hour,
       estimated_hours: v.estimated_hours,
       lump_sum: v.lump_sum,
+      taker_amount: v.taker_amount,
       address: v.address.trim() || null,
       preferred_date: v.preferred_date || null,
     });

@@ -74,6 +74,11 @@
     }
 
     <mat-form-field appearance="outline" subscriptSizing="dynamic" class="full-width">
+      <mat-label>{{ 'CREATE_JOB.TAKER_AMOUNT' | translate }}</mat-label>
+      <input matInput formControlName="taker_amount" type="number" min="1" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" subscriptSizing="dynamic" class="full-width">
       <mat-label>{{ 'CREATE_JOB.ADDRESS' | translate }}</mat-label>
       <input matInput formControlName="address" autocomplete="street-address" />
     </mat-form-field>
