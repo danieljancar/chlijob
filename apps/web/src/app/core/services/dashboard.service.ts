@@ -29,7 +29,7 @@ export class DashboardService {
     ).length;
 
     const totalEarnings = completedContracts.reduce(
-      (sum, c) => sum + (c.salary_per_hour ?? 0) * (c.estimated_hours ?? 0),
+      (sum, c) => sum + (c.salary_per_hour ?? 0) * (c.estimated_hours ?? 0) + (c.lump_sum ?? 0),
       0,
     );
 
@@ -81,7 +81,7 @@ export class DashboardService {
     const { data } = await this.supabase.client
       .from('applications')
       .select(
-        `*, contract:contracts!contract_id(id, title, address, preferred_date, salary_per_hour, status, category:categories(id, name, slug), creator:profiles!creator_id(id, first_name, last_name))`,
+        `*, contract:contracts!contract_id(id, title, address, preferred_date, salary_per_hour, lump_sum, status, category:categories(id, name, slug), creator:profiles!creator_id(id, first_name, last_name))`,
       )
       .eq('user_id', userId)
       .order('created_at', { ascending: false })

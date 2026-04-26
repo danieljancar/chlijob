@@ -75,6 +75,10 @@
                 <span class="list-item__salary"
                   >CHF {{ contract.salary_per_hour | number: '1.0-0' }}.-/h</span
                 >
+              } @else if (contract.lump_sum) {
+                <span class="list-item__salary"
+                  >CHF {{ contract.lump_sum | number: '1.0-0' }}.-</span
+                >
               }
             </div>
           </div>
@@ -185,6 +189,10 @@
               @if (contract.salary_per_hour) {
                 <span class="list-item__salary"
                   >CHF {{ contract.salary_per_hour | number: '1.0-0' }}.-</span
+                >
+              } @else if (contract.lump_sum) {
+                <span class="list-item__salary"
+                  >CHF {{ contract.lump_sum | number: '1.0-0' }}.-</span
                 >
               }
               <app-star-rating [rating]="contract.creator?.rating_avg ?? 0" [showCount]="false" />

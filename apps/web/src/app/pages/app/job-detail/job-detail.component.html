@@ -59,6 +59,15 @@
             </div>
           </div>
         }
+        @if (c.lump_sum) {
+          <div class="meta-item">
+            <mat-icon>payments</mat-icon>
+            <div>
+              <span class="meta-label">{{ 'JOB_DETAIL.LUMP_SUM' | translate }}</span>
+              <span class="meta-value">{{ c.lump_sum | number: '1.2-2' }} </span>
+            </div>
+          </div>
+        }
         @if (c.address) {
           <div class="meta-item">
             <mat-icon>location_on</mat-icon>

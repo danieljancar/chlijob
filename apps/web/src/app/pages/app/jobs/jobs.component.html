@@ -31,6 +31,8 @@
             <mat-panel-description class="panel-desc">
               @if (contract.salary_per_hour) {
                 {{ contract.salary_per_hour | number: '1.2-2' }} CHF/h
+              } @else if (contract.lump_sum) {
+                {{ contract.lump_sum }} CHF
               }
               @if (contract.category?.slug | categoryLabel; as catLabel) {
                 · {{ catLabel }}

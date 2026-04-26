@@ -92,7 +92,9 @@ export type Database = {
           creator_id: string;
           taker_id: string | null;
           category_id: number | null;
+          payment_type: string;
           salary_per_hour: number | null;
+          lump_sum: number | null;
           address: string | null;
           latitude: number | null;
           longitude: number | null;
@@ -111,7 +113,9 @@ export type Database = {
           creator_id: string;
           taker_id?: string | null;
           category_id?: number | null;
+          payment_type: string;
           salary_per_hour?: number | null;
+          lump_sum?: number | null;
           address?: string | null;
           latitude?: number | null;
           longitude?: number | null;

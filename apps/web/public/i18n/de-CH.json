@@ -139,8 +139,12 @@
     "JOB_TITLE": "Jobtitel",
     "DESCRIPTION": "Beschreibung",
     "CATEGORY": "Kategorie",
+    "PAYMENT_TYPE": "Bezahlungsart",
+    "HOURLY": "Stundenlohn",
     "SALARY": "Stundenlohn (CHF)",
     "HOURS": "Geschätzte Stunden",
+    "LUMP_SUM": "Pauschalbetrag",
+    "LUMP_SUM_SALARY": "Pauschalbetrag (CHF)",
     "ADDRESS": "Adresse / Ort",
     "DATE": "Gewünschtes Datum",
     "IMAGES": "Fotos",
@@ -148,7 +152,9 @@
     "SUBMIT": "Inserat ausschreiben"
   },
   "JOB_DETAIL": {
+    "PAYMENT_TYPE": "Bezahlungsart",
     "SALARY": "Stundenlohn",
+    "LUMP_SUM": "Pauschalbetrag",
     "HOURS": "Geschätzte Stunden",
     "ADDRESS": "Adresse",
     "DATE": "Gewünschtes Datum",
@@ -174,6 +180,7 @@
   },
   "JOB_CARD": {
     "PER_HOUR": "CHF/h",
+    "CHF_CURRENCY": "CHF",
     "HOURS": "Std.",
     "APPLY": "Bewerben",
     "APPLIED": "Beworben"
