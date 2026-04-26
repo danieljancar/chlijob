@@ -44,7 +44,9 @@ export interface CreateContractData {
   title: string;
   description: string | null;
   category_id: number | null;
+  payment_type: 'hourly' | 'lump_sum';
   salary_per_hour: number | null;
+  lump_sum: number | null;
   address: string | null;
   estimated_hours: number | null;
   preferred_date: string | null;

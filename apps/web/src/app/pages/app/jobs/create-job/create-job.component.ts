@@ -7,6 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatRadioModule } from '@angular/material/radio';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { ContractService } from '../../../../core/services/contract.service';
 import { NotificationService } from '../../../../core/services/notification.service';
@@ -24,6 +25,7 @@ import type { Category } from '../../../../core/types';
     MatIconModule,
     MatInputModule,
     MatSelectModule,
+    MatRadioModule,
     TranslatePipe,
     CategoryLabelPipe,
   ],
@@ -46,8 +48,10 @@ export class CreateJobComponent implements OnInit {
     title: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
     description: new FormControl('', { nonNullable: true }),
     category_id: new FormControl<number | null>(null),
+    payment_type: new FormControl<'hourly' | 'lump_sum'>('hourly', { nonNullable: true }),
     salary_per_hour: new FormControl<number | null>(null, [Validators.min(1)]),
     estimated_hours: new FormControl<number | null>(null, [Validators.min(0.5)]),
+    lump_sum: new FormControl<number | null>(null, [Validators.min(1)]),
     address: new FormControl('', { nonNullable: true }),
     preferred_date: new FormControl('', { nonNullable: true }),
   });
@@ -94,8 +98,10 @@ export class CreateJobComponent implements OnInit {
       title: v.title.trim(),
       description: v.description.trim() || null,
       category_id: v.category_id,
+      payment_type: v.payment_type,
       salary_per_hour: v.salary_per_hour,
       estimated_hours: v.estimated_hours,
+      lump_sum: v.lump_sum,
       address: v.address.trim() || null,
       preferred_date: v.preferred_date || null,
     });
