@@ -150,3 +150,19 @@
 .apply-btn {
   min-width: 140px;
 }
+
+.review-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.review-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  mat-form-field {
+    width: 100%;
+  }
+}

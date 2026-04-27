@@ -282,4 +282,53 @@ export class ContractService {
 
     return { error: null };
   }
+
+  async updateJobReview(
+    contractId: number,
+    rating: number,
+    comment: string,
+  ): Promise<{ error: Error | null }> {
+    const contract = await this.getContractById(contractId);
+    if (!contract) return { error: new Error('Contract not found') };
+
+    const userId = this.auth.session()?.user.id;
+    if (!userId) return { error: new Error('Not authenticated') };
+
+    // First, find the existing review by this user for this contract
+    const { data: existingReviews } = await this.supabase.client
+      .from('reviews')
+      .select('id')
+      .eq('contract_id', contractId)
+      .eq('reviewed_by_id', userId)
+      .maybeSingle();
+
+    if (!existingReviews) {
+      return { error: new Error('Review not found') };
+    }
+
+    const reviewId = existingReviews.id;
+
+    const { error } = await this.supabase.client
+      .from('reviews')
+      .update({ rating, comment })
+      .eq('id', reviewId);
+
+    if (error) {
+      console.error('Error updating review:', error);
+      return { error: error as Error };
+    }
+
+    return { error: null };
+  }
+
+  async hasReviewed(userId: string, contractId: number): Promise<boolean> {
+    const { data } = await this.supabase.client
+      .from('reviews')
+      .select('id')
+      .eq('contract_id', contractId)
+      .eq('reviewed_by_id', userId)
+      .maybeSingle();
+
+    return data !== null;
+  }
 }

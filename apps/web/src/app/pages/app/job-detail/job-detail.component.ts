@@ -11,8 +11,11 @@ import { DatePipe, DecimalPipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ContractService } from '../../../core/services/contract.service';
 import { AuthService } from '../../../core/services/auth.service';
@@ -34,8 +37,11 @@ import { JobStatusBadgeComponent } from '../../../shared/components/job-status-b
     MatButtonModule,
     MatChipsModule,
     MatDividerModule,
+    MatFormFieldModule,
     MatIconModule,
+    MatInputModule,
     MatProgressSpinnerModule,
+    ReactiveFormsModule,
     TranslatePipe,
     StarRatingComponent,
     ImageCarouselComponent,
@@ -60,6 +66,11 @@ export class JobDetailComponent implements OnInit {
   protected applying = signal(false);
   protected applied = signal(false);
   protected userRating = signal(0);
+  protected reviewSubmitting = signal(false);
+  protected commentControl = new FormControl('', {
+    nonNullable: true,
+    validators: [Validators.required, Validators.minLength(3)],
+  });
 
   protected imageUrls = computed(() =>
     (this.contract()?.images ?? []).map((img) =>
@@ -78,6 +89,15 @@ export class JobDetailComponent implements OnInit {
   });
 
   protected isOpen = computed(() => this.contract()?.status === 'open');
+
+  protected isReviewFilledOut = computed(async () => {
+    const userId = this.auth.session()?.user.id;
+    const contractId = this.contract()?.id ?? 0;
+
+    if (!userId || !contractId) return false;
+
+    return await this.contractService.hasReviewed(userId, contractId);
+  });
 
   async ngOnInit(): Promise<void> {
     const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -183,29 +203,40 @@ export class JobDetailComponent implements OnInit {
   }
 
   protected onRatingChange(rating: number): void {
-    const contract = this.contract();
-    if (!contract) return;
-
     this.userRating.set(rating);
+  }
 
-    if (this.isOwnContract()) {
-      this.contractService.reviewJob(contract.id, rating, '', 'creator').then(({ error }) => {
-        if (error) {
-          this.notify.error('NOTIFY.REVIEW_JOB_ERROR');
-        } else {
-          this.notify.success('NOTIFY.REVIEW_JOB_SUCCESS');
-        }
-      });
-    } else if (this.isAppliedTaker()) {
-      this.contractService.reviewJob(contract.id, rating, '', 'taker').then(({ error }) => {
-        if (error) {
-          this.notify.error('NOTIFY.REVIEW_JOB_ERROR');
-        } else {
-          this.notify.success('NOTIFY.REVIEW_JOB_SUCCESS');
-        }
-      });
-    } else {
+  protected async reviewJob(): Promise<void> {
+    const contract = this.contract();
+    if (!contract || contract.status !== 'completed' || this.reviewSubmitting()) return;
+
+    if (!this.isOwnContract() && !this.isAppliedTaker()) {
       this.notify.error('NOTIFY.APPLICATION_ACTION_ERROR');
+      return;
     }
+
+    if (!this.userRating() || this.commentControl.invalid) {
+      this.commentControl.markAsTouched();
+      return;
+    }
+
+    this.reviewSubmitting.set(true);
+    const { error } = await this.contractService.reviewJob(
+      contract.id,
+      this.userRating(),
+      this.commentControl.value.trim(),
+      this.isOwnContract() ? 'creator' : 'taker',
+    );
+
+    if (error) {
+      this.notify.error('NOTIFY.REVIEW_JOB_ERROR');
+      this.reviewSubmitting.set(false);
+      return;
+    }
+
+    this.notify.success('NOTIFY.REVIEW_JOB_SUCCESS');
+    this.reviewSubmitting.set(false);
+    this.commentControl.reset('');
+    this.userRating.set(0);
   }
 }

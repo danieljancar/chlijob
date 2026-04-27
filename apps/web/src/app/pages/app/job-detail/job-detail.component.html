@@ -141,14 +141,42 @@
         </div>
       }
 
-      @if (c.status === 'completed') {
+      @if (c.status === 'completed' && !isReviewFilledOut()) {
         <mat-divider />
-        <div class="apply-section">
-          <app-star-rating
-            [rating]="userRating()"
-            (ratingChanged)="onRatingChange($event)"
-            [isEditingEnabled]="true"
-          />
+        <div class="review-section">
+          <h3 class="section-label">{{ 'JOB_DETAIL.LEAVE_REVIEW' | translate }}</h3>
+          <div class="review-form">
+            <div class="rating-wrapper">
+              <app-star-rating
+                [rating]="userRating()"
+                (ratingChanged)="onRatingChange($event)"
+                [isEditingEnabled]="true"
+                [showCount]="false"
+              />
+            </div>
+            <mat-form-field class="full-width">
+              <mat-label>{{ 'JOB_DETAIL.COMMENT' | translate }}</mat-label>
+              <textarea
+                matInput
+                [formControl]="commentControl"
+                rows="1"
+                placeholder="{{ 'JOB_DETAIL.COMMENT_PLACEHOLDER' | translate }}"
+              ></textarea>
+            </mat-form-field>
+          </div>
+          <button
+            mat-flat-button
+            color="primary"
+            class="submit-review-btn"
+            (click)="reviewJob()"
+            [disabled]="!commentControl.valid || !userRating() || reviewSubmitting()"
+          >
+            @if (reviewSubmitting()) {
+              {{ 'COMMON.LOADING' | translate }}
+            } @else {
+              {{ 'JOB_DETAIL.SUBMIT_REVIEW' | translate }}
+            }
+          </button>
         </div>
       }
     </div>

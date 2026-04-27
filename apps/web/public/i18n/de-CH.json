@@ -141,6 +141,10 @@
     "CANCEL_JOB": "Job absagen",
     "COMPLETE_JOB": "Job als erledigt markieren",
     "REVIEW_JOB": "Job bewerten",
+    "LEAVE_REVIEW": "Bewertung hinterlassen",
+    "COMMENT": "Kommentar",
+    "COMMENT_PLACEHOLDER": "Wie war die Zusammenarbeit?",
+    "SUBMIT_REVIEW": "Bewertung absenden",
     "CANCEL_CONFIRM": "Möchtest du diesen Job wirklich absagen?",
     "COMPLETE_CONFIRM": "Möchtest du diesen Job wirklich als erledigt markieren?"
   },
