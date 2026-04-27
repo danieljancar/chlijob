@@ -42,6 +42,8 @@ create table if not exists public.contracts (
   creator_id      uuid references public.profiles(id) not null,
   taker_id        uuid references public.profiles(id),
   category_id     integer references public.categories(id),
+  payment_type    varchar not null,
+  lump_sum        decimal(10, 2),
   salary_per_hour decimal(10, 2),
   address         varchar,
   latitude        float,
