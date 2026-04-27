@@ -84,14 +84,6 @@ create table if not exists public.applications (
   unique(user_id, contract_id) 
 );
 
--- Infobanners
-create table if not exists public.infobanners (
-  id          serial primary key,
-  topic       varchar not null,
-  start_date  timestamptz,
-  end_date    timestamptz,
-  message     text,
-)
 
 -- ==========================================
 -- 3. FUNCTIONS & TRIGGERS
@@ -150,7 +142,6 @@ alter table public.applications enable row level security;
 alter table public.categories enable row level security;
 alter table public.reviews enable row level security;
 alter table public.contract_images enable row level security;
-alter table public.infobanners enable row level security;
 
 -- Profiles
 create policy "Profiles are public" on public.profiles for select using (true);
@@ -177,8 +168,6 @@ create policy "Users apply to contracts" on public.applications for insert with 
 create policy "Reviews are public" on public.reviews for select using (true);
 create policy "Users write reviews" on public.reviews for insert with check ((select auth.uid()) = reviewed_by_id);
 
--- Infobanners
-create policy "Infobanners are public" on public.infobanners for select using (true);
 
 -- ==========================================
 -- 5. STORAGE BUCKETS & POLICIES
