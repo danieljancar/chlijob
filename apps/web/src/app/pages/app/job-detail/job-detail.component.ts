@@ -22,6 +22,7 @@ import { StarRatingComponent } from '../../../shared/components/star-rating/star
 import { ImageCarouselComponent } from '../../../shared/components/image-carousel/image-carousel.component';
 import { CategoryLabelPipe } from '../../../shared/pipes/category-label.pipe';
 import type { ContractWithDetails } from '../../../core/types';
+import { DialogService } from '../../../core/services/dialog.service';
 
 @Component({
   selector: 'app-job-detail',
@@ -50,6 +51,7 @@ export class JobDetailComponent implements OnInit {
   private auth = inject(AuthService);
   private notify = inject(NotificationService);
   private supabase = inject(SupabaseService);
+  private dialog = inject(DialogService);
 
   protected contract = signal<ContractWithDetails | null>(null);
   protected loading = signal(true);
@@ -65,6 +67,11 @@ export class JobDetailComponent implements OnInit {
   protected isOwnContract = computed(() => {
     const userId = this.auth.session()?.user.id;
     return !!userId && this.contract()?.creator_id === userId;
+  });
+
+  protected isAppliedTaker = computed(() => {
+    const userId = this.auth.session()?.user.id;
+    return !!userId && this.contract()?.taker_id === userId;
   });
 
   protected isOpen = computed(() => this.contract()?.status === 'open');
@@ -113,5 +120,28 @@ export class JobDetailComponent implements OnInit {
 
   protected goBack(): void {
     this.router.navigate(['/app/search']);
+  }
+
+  protected async cancelApplication(): Promise<void> {
+    const contract = this.contract();
+    if (!contract) return;
+
+    this.dialog
+      .confirm({
+        messageKey: 'JOB_DETAIL.CANCEL_CONFIRM',
+        destructive: true,
+      })
+      .subscribe(async (confirmed) => {
+        if (confirmed) {
+          const { error } = await this.contractService.cancelApplication(contract.id);
+
+          if (error) {
+            this.notify.error('NOTIFY.CANCEL_JOB_ERROR');
+          } else {
+            this.notify.success('NOTIFY.CANCEL_JOB_SUCCESS');
+            this.applied.set(false);
+          }
+        }
+      });
   }
 }

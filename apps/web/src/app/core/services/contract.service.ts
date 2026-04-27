@@ -212,4 +212,24 @@ export class ContractService {
 
     return (data ?? []).map((a) => a.contract_id).filter((id): id is number => id !== null);
   }
+
+  async cancelApplication(contractId: number): Promise<{ error: Error | null }> {
+    const contract = await this.getContractById(contractId);
+    if (!contract) return { error: new Error('Contract not found') };
+
+    const userId = this.auth.session()?.user.id;
+    if (!userId) return { error: new Error('Not authenticated') };
+
+    const { error } = await this.supabase.client
+      .from('contracts')
+      .update({ taker_id: null })
+      .eq('id', contractId)
+      .eq('taker_id', userId);
+
+    if (error) {
+      console.error('Error cancelling application:', error);
+      return { error: error as Error };
+    }
+    return { error: null };
+  }
 }

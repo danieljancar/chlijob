@@ -13,6 +13,8 @@ export interface ContractCreatorProfile {
   id: string;
   first_name: string;
   last_name: string;
+  phonenumber: string | null;
+  email: string | null;
   rating_avg: number;
   review_count: number;
   avatar_path: string | null;

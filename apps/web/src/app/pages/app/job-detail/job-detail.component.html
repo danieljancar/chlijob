@@ -77,6 +77,15 @@
             </div>
           </div>
         }
+        @if ((isAppliedTaker() || isOwnContract()) && c.creator?.phonenumber) {
+          <div class="meta-item">
+            <mat-icon>person</mat-icon>
+            <div>
+              <span class="meta-label">{{ 'JOB_DETAIL.CONTACT' | translate }}</span>
+              <span class="meta-value">{{ c.creator?.phonenumber }}</span>
+            </div>
+          </div>
+        }
       </div>
 
       @if (c.creator) {
@@ -93,7 +102,7 @@
         </div>
       }
 
-      @if (!isOwnContract() && isOpen()) {
+      @if (!isOwnContract() && isOpen() && !isAppliedTaker()) {
         <mat-divider />
         <div class="apply-section">
           <button
@@ -109,6 +118,13 @@
             } @else {
               {{ 'JOB_CARD.APPLY' | translate }}
             }
+          </button>
+        </div>
+      } @else if (isAppliedTaker()) {
+        <mat-divider />
+        <div class="apply-section">
+          <button mat-flat-button class="cancel-btn" (click)="cancelApplication()">
+            {{ 'JOB_DETAIL.CANCEL_JOB' | translate }}
           </button>
         </div>
       }
