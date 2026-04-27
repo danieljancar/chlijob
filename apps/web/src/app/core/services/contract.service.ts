@@ -232,4 +232,54 @@ export class ContractService {
     }
     return { error: null };
   }
+
+  async completeJob(contractId: number): Promise<{ error: Error | null }> {
+    const contract = await this.getContractById(contractId);
+    if (!contract) return { error: new Error('Contract not found') };
+
+    const userId = this.auth.session()?.user.id;
+    if (!userId) return { error: new Error('Not authenticated') };
+
+    const { error } = await this.supabase.client
+      .from('contracts')
+      .update({ status: 'completed' })
+      .eq('id', contractId)
+      .eq('creator_id', userId);
+
+    if (error) {
+      console.error('Error completing job:', error);
+      return { error: error as Error };
+    }
+
+    return { error: null };
+  }
+
+  async reviewJob(
+    contractId: number,
+    rating: number,
+    comment: string,
+    asUser: 'creator' | 'taker',
+  ): Promise<{ error: Error | null }> {
+    const contract = await this.getContractById(contractId);
+    if (!contract) return { error: new Error('Contract not found') };
+
+    const userId = this.auth.session()?.user.id;
+    if (!userId) return { error: new Error('Not authenticated') };
+
+    const { error } = await this.supabase.client.from('reviews').insert({
+      contract_id: contractId,
+      reviewed_by_id: userId,
+      reviewed_to_id: asUser === 'creator' ? contract.taker_id! : contract.creator_id,
+      rating,
+      comment,
+      created_at: new Date().toISOString(),
+    });
+
+    if (error) {
+      console.error('Error submitting review:', error);
+      return { error: error as Error };
+    }
+
+    return { error: null };
+  }
 }

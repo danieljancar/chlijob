@@ -8,7 +8,10 @@
       <button mat-icon-button (click)="goBack()">
         <mat-icon>arrow_back</mat-icon>
       </button>
-      <h1 class="page-title">{{ c.title }}</h1>
+      <div class="page-title">
+        {{ c.title }}
+        <app-job-status-badge [status]="c.status" />
+      </div>
     </div>
 
     @if (imageUrls().length > 0) {
@@ -126,6 +129,26 @@
           <button mat-flat-button class="cancel-btn" (click)="cancelApplication()">
             {{ 'JOB_DETAIL.CANCEL_JOB' | translate }}
           </button>
+        </div>
+      } @else if (isOwnContract()) {
+        <mat-divider />
+        <div class="apply-section">
+          @if (c.status !== 'completed') {
+            <button mat-flat-button class="complete-btn" (click)="completeJob()">
+              {{ 'JOB_DETAIL.COMPLETE_JOB' | translate }}
+            </button>
+          }
+        </div>
+      }
+
+      @if (c.status === 'completed') {
+        <mat-divider />
+        <div class="apply-section">
+          <app-star-rating
+            [rating]="userRating()"
+            (ratingChanged)="onRatingChange($event)"
+            [isEditingEnabled]="true"
+          />
         </div>
       }
     </div>

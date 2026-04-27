@@ -141,7 +141,8 @@
     "CANCEL_JOB": "Job absagen",
     "COMPLETE_JOB": "Job als erledigt markieren",
     "REVIEW_JOB": "Job bewerten",
-    "CANCEL_CONFIRM": "Möchtest du diesen Job wirklich absagen?"
+    "CANCEL_CONFIRM": "Möchtest du diesen Job wirklich absagen?",
+    "COMPLETE_CONFIRM": "Möchtest du diesen Job wirklich als erledigt markieren?"
   },
   "SEARCH": {
     "TITLE": "Jobs suchen",
@@ -197,7 +198,9 @@
     "APPLICATION_ACTION_ERROR": "Fehler bei der Aktion. Bitte versuche es erneut.",
     "CANCEL_JOB_SUCCESS": "Job erfolgreich abgesagt.",
     "CANCEL_JOB_ERROR": "Fehler beim Absagen des Jobs. Bitte versuche es erneut.",
-    "COMPLETE_JOB_SUCCESS": "Job erfolgreich als erledigt markiert."
+    "COMPLETE_JOB_SUCCESS": "Job erfolgreich als erledigt markiert.",
+    "REVIEW_JOB_ERROR": "Fehler beim Bewerten des Jobs. Bitte versuche es erneut.",
+    "REVIEW_JOB_SUCCESS": "Vielen Dank für deine Bewertung!"
   },
   "AUTH_ERROR": {
     "INVALID_CREDENTIALS": "Ungültige E-Mail-Adresse oder falsches Passwort.",

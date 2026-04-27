@@ -10,12 +10,20 @@
   margin-bottom: 24px;
 
   .page-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     margin: 0;
     font-size: 1.5rem;
     font-weight: 600;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  .page-title-job-state {
+    font-size: 0.875rem;
+    color: var(--mat-sys-on-surface-variant);
   }
 }
 

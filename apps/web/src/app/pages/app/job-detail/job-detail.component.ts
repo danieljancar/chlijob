@@ -23,6 +23,7 @@ import { ImageCarouselComponent } from '../../../shared/components/image-carouse
 import { CategoryLabelPipe } from '../../../shared/pipes/category-label.pipe';
 import type { ContractWithDetails } from '../../../core/types';
 import { DialogService } from '../../../core/services/dialog.service';
+import { JobStatusBadgeComponent } from '../../../shared/components/job-status-badge/job-status-badge.component';
 
 @Component({
   selector: 'app-job-detail',
@@ -39,6 +40,7 @@ import { DialogService } from '../../../core/services/dialog.service';
     StarRatingComponent,
     ImageCarouselComponent,
     CategoryLabelPipe,
+    JobStatusBadgeComponent,
   ],
   templateUrl: './job-detail.component.html',
   styleUrl: './job-detail.component.scss',
@@ -57,6 +59,7 @@ export class JobDetailComponent implements OnInit {
   protected loading = signal(true);
   protected applying = signal(false);
   protected applied = signal(false);
+  protected userRating = signal(0);
 
   protected imageUrls = computed(() =>
     (this.contract()?.images ?? []).map((img) =>
@@ -126,6 +129,11 @@ export class JobDetailComponent implements OnInit {
     const contract = this.contract();
     if (!contract) return;
 
+    if (!this.isAppliedTaker()) {
+      this.notify.error('NOTIFY.APPLICATION_ACTION_ERROR');
+      return;
+    }
+
     this.dialog
       .confirm({
         messageKey: 'JOB_DETAIL.CANCEL_CONFIRM',
@@ -143,5 +151,61 @@ export class JobDetailComponent implements OnInit {
           }
         }
       });
+  }
+
+  protected async completeJob(): Promise<void> {
+    const contract = this.contract();
+    if (!contract) return;
+
+    if (!this.isOwnContract()) {
+      this.notify.error('NOTIFY.APPLICATION_ACTION_ERROR');
+      return;
+    }
+
+    this.dialog
+      .confirm({
+        messageKey: 'JOB_DETAIL.COMPLETE_CONFIRM',
+      })
+      .subscribe(async (confirmed) => {
+        if (confirmed) {
+          const { error } = await this.contractService.completeJob(contract.id);
+
+          if (error) {
+            this.notify.error('NOTIFY.APPLICATION_ACTION_ERROR');
+          } else {
+            this.notify.success('NOTIFY.COMPLETE_JOB_SUCCESS');
+            // Refresh contract details to show updated status
+            const updatedContract = await this.contractService.getContractById(contract.id);
+            this.contract.set(updatedContract);
+          }
+        }
+      });
+  }
+
+  protected onRatingChange(rating: number): void {
+    const contract = this.contract();
+    if (!contract) return;
+
+    this.userRating.set(rating);
+
+    if (this.isOwnContract()) {
+      this.contractService.reviewJob(contract.id, rating, '', 'creator').then(({ error }) => {
+        if (error) {
+          this.notify.error('NOTIFY.REVIEW_JOB_ERROR');
+        } else {
+          this.notify.success('NOTIFY.REVIEW_JOB_SUCCESS');
+        }
+      });
+    } else if (this.isAppliedTaker()) {
+      this.contractService.reviewJob(contract.id, rating, '', 'taker').then(({ error }) => {
+        if (error) {
+          this.notify.error('NOTIFY.REVIEW_JOB_ERROR');
+        } else {
+          this.notify.success('NOTIFY.REVIEW_JOB_SUCCESS');
+        }
+      });
+    } else {
+      this.notify.error('NOTIFY.APPLICATION_ACTION_ERROR');
+    }
   }
 }
