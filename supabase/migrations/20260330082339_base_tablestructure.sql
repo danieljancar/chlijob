@@ -84,7 +84,6 @@ create table if not exists public.applications (
   unique(user_id, contract_id) 
 );
 
-
 -- ==========================================
 -- 3. FUNCTIONS & TRIGGERS
 -- ==========================================
@@ -167,7 +166,6 @@ create policy "Users apply to contracts" on public.applications for insert with 
 -- Reviews
 create policy "Reviews are public" on public.reviews for select using (true);
 create policy "Users write reviews" on public.reviews for insert with check ((select auth.uid()) = reviewed_by_id);
-
 
 -- ==========================================
 -- 5. STORAGE BUCKETS & POLICIES
