@@ -30,23 +30,48 @@
       </mat-select>
     </mat-form-field>
 
-    <div class="form-row">
-      <mat-form-field appearance="outline" subscriptSizing="dynamic">
-        <mat-label>{{ 'CREATE_JOB.SALARY' | translate }}</mat-label>
-        <input matInput formControlName="salary_per_hour" type="number" min="1" step="0.5" />
-        @if (form.controls.salary_per_hour.hasError('min')) {
-          <mat-error>{{ 'VALIDATION.MIN_1' | translate }}</mat-error>
-        }
-      </mat-form-field>
+    <div class="payment-type">
+      <label class="section-label">
+        {{ 'CREATE_JOB.PAYMENT_TYPE' | translate }}
+      </label>
 
-      <mat-form-field appearance="outline" subscriptSizing="dynamic">
-        <mat-label>{{ 'CREATE_JOB.HOURS' | translate }}</mat-label>
-        <input matInput formControlName="estimated_hours" type="number" min="0.5" step="0.5" />
-        @if (form.controls.estimated_hours.hasError('min')) {
-          <mat-error>{{ 'VALIDATION.MIN_0_5' | translate }}</mat-error>
-        }
-      </mat-form-field>
+      <mat-radio-group formControlName="payment_type">
+        <mat-radio-button value="hourly">
+          {{ 'CREATE_JOB.HOURLY' | translate }}
+        </mat-radio-button>
+
+        <mat-radio-button value="lump_sum">
+          {{ 'CREATE_JOB.LUMP_SUM' | translate }}
+        </mat-radio-button>
+      </mat-radio-group>
     </div>
+
+    <div class="form-row">
+      @if (form.value.payment_type === 'hourly') {
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+          <mat-label>{{ 'CREATE_JOB.SALARY' | translate }}</mat-label>
+          <input matInput formControlName="salary_per_hour" type="number" min="1" step="0.5" />
+          @if (form.controls.salary_per_hour.hasError('min')) {
+            <mat-error>{{ 'VALIDATION.MIN_1' | translate }}</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+          <mat-label>{{ 'CREATE_JOB.HOURS' | translate }}</mat-label>
+          <input matInput formControlName="estimated_hours" type="number" min="0.5" step="0.5" />
+          @if (form.controls.estimated_hours.hasError('min')) {
+            <mat-error>{{ 'VALIDATION.MIN_0_5' | translate }}</mat-error>
+          }
+        </mat-form-field>
+      }
+    </div>
+
+    @if (form.value.payment_type === 'lump_sum') {
+      <mat-form-field appearance="outline" subscriptSizing="dynamic" class="full-width">
+        <mat-label>{{ 'CREATE_JOB.LUMP_SUM_SALARY' | translate }}</mat-label>
+        <input matInput formControlName="lump_sum" type="number" min="1" />
+      </mat-form-field>
+    }
 
     <mat-form-field appearance="outline" subscriptSizing="dynamic" class="full-width">
       <mat-label>{{ 'CREATE_JOB.ADDRESS' | translate }}</mat-label>

@@ -36,6 +36,8 @@
                 <div class="contract-meta">
                   @if (contract.salary_per_hour) {
                     <span>{{ contract.salary_per_hour | number: '1.2-2' }} CHF/h</span>
+                  } @else if (contract.lump_sum) {
+                    <span>{{ contract.lump_sum | number: '1.2-2' }} CHF</span>
                   }
                   @if (contract.category) {
                     <span>{{ contract.category.name }}</span>
@@ -76,6 +78,8 @@
                 <div class="contract-meta">
                   @if (contract.salary_per_hour) {
                     <span>{{ contract.salary_per_hour | number: '1.2-2' }} CHF/h</span>
+                  } @else if (contract.lump_sum) {
+                    <span>{{ contract.lump_sum | number: '1.2-2' }} CHF</span>
                   }
                   @if (contract.category) {
                     <span>{{ contract.category.name }}</span>

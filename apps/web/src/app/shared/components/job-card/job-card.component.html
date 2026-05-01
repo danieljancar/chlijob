@@ -39,6 +39,12 @@
         {{ contract().estimated_hours }} {{ 'JOB_CARD.HOURS' | translate }}
       </span>
     }
+    @if (contract().lump_sum) {
+      <span class="job-card__meta-item">
+        <mat-icon>payments</mat-icon>
+        {{ contract().lump_sum | number: '1.2-2' }} {{ 'JOB_CARD.CHF_CURRENCY' | translate }}
+      </span>
+    }
     @if (contract().address) {
       <span class="job-card__meta-item">
         <mat-icon>location_on</mat-icon>

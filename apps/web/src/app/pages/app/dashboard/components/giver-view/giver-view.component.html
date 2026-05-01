@@ -77,6 +77,10 @@
                 <span class="contract-card__salary"
                   >CHF {{ contract.salary_per_hour | number: '1.0-0' }}/h</span
                 >
+              } @else if (contract.lump_sum) {
+                <span class="contract-card__salary"
+                  >CHF {{ contract.lump_sum | number: '1.0-0' }}</span
+                >
               }
               <a mat-stroked-button [routerLink]="['/app/jobs']" class="apps-btn">
                 <mat-icon>group</mat-icon>

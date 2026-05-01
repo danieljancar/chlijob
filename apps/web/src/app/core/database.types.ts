@@ -131,7 +131,9 @@ export type Database = {
           latitude: number | null;
           longitude: number | null;
           preferred_date: string | null;
+          payment_type: string;
           salary_per_hour: number | null;
+          lump_sum: number | null;
           status: string;
           taker_id: string | null;
           title: string;
@@ -150,7 +152,9 @@ export type Database = {
           latitude?: number | null;
           longitude?: number | null;
           preferred_date?: string | null;
+          payment_type: string;
           salary_per_hour?: number | null;
+          lump_sum?: number | null;
           status?: string;
           taker_id?: string | null;
           title: string;
@@ -169,7 +173,9 @@ export type Database = {
           latitude?: number | null;
           longitude?: number | null;
           preferred_date?: string | null;
+          payment_type: string;
           salary_per_hour?: number | null;
+          lump_sum?: number | null;
           status?: string;
           taker_id?: string | null;
           title?: string;
