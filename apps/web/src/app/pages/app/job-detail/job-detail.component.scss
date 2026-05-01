@@ -10,12 +10,20 @@
   margin-bottom: 24px;
 
   .page-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     margin: 0;
     font-size: 1.5rem;
     font-weight: 600;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  .page-title-job-state {
+    font-size: 0.875rem;
+    color: var(--mat-sys-on-surface-variant);
   }
 }
 
@@ -129,6 +137,11 @@
   font-size: 1rem;
 }
 
+.cancel-btn {
+  background: rgb(222, 10, 10) !important;
+  color: white !important;
+}
+
 .apply-section {
   display: flex;
   justify-content: flex-end;
@@ -136,4 +149,20 @@
 
 .apply-btn {
   min-width: 140px;
+}
+
+.review-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.review-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  mat-form-field {
+    width: 100%;
+  }
 }

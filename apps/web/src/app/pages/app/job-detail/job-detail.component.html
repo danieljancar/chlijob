@@ -8,7 +8,10 @@
       <button mat-icon-button (click)="goBack()">
         <mat-icon>arrow_back</mat-icon>
       </button>
-      <h1 class="page-title">{{ c.title }}</h1>
+      <div class="page-title">
+        {{ c.title }}
+        <app-job-status-badge [status]="c.status" />
+      </div>
     </div>
 
     @if (imageUrls().length > 0) {
@@ -86,6 +89,15 @@
             </div>
           </div>
         }
+        @if ((isAppliedTaker() || isOwnContract()) && c.creator?.phonenumber) {
+          <div class="meta-item">
+            <mat-icon>person</mat-icon>
+            <div>
+              <span class="meta-label">{{ 'JOB_DETAIL.CONTACT' | translate }}</span>
+              <span class="meta-value">{{ c.creator?.phonenumber }}</span>
+            </div>
+          </div>
+        }
       </div>
 
       @if (c.creator) {
@@ -102,7 +114,7 @@
         </div>
       }
 
-      @if (!isOwnContract() && isOpen()) {
+      @if (!isOwnContract() && isOpen() && !isAppliedTaker()) {
         <mat-divider />
         <div class="apply-section">
           <button
@@ -117,6 +129,61 @@
               {{ 'COMMON.LOADING' | translate }}
             } @else {
               {{ 'JOB_CARD.APPLY' | translate }}
+            }
+          </button>
+        </div>
+      } @else if (isAppliedTaker()) {
+        <mat-divider />
+        <div class="apply-section">
+          <button mat-flat-button class="cancel-btn" (click)="cancelApplication()">
+            {{ 'JOB_DETAIL.CANCEL_JOB' | translate }}
+          </button>
+        </div>
+      } @else if (isOwnContract()) {
+        <mat-divider />
+        <div class="apply-section">
+          @if (c.status !== 'completed') {
+            <button mat-flat-button class="complete-btn" (click)="completeJob()">
+              {{ 'JOB_DETAIL.COMPLETE_JOB' | translate }}
+            </button>
+          }
+        </div>
+      }
+
+      @if (c.status === 'completed' && !isReviewFilledOut()) {
+        <mat-divider />
+        <div class="review-section">
+          <h3 class="section-label">{{ 'JOB_DETAIL.LEAVE_REVIEW' | translate }}</h3>
+          <div class="review-form">
+            <div class="rating-wrapper">
+              <app-star-rating
+                [rating]="userRating()"
+                (ratingChanged)="onRatingChange($event)"
+                [isEditingEnabled]="true"
+                [showCount]="false"
+              />
+            </div>
+            <mat-form-field class="full-width">
+              <mat-label>{{ 'JOB_DETAIL.COMMENT' | translate }}</mat-label>
+              <textarea
+                matInput
+                [formControl]="commentControl"
+                rows="1"
+                placeholder="{{ 'JOB_DETAIL.COMMENT_PLACEHOLDER' | translate }}"
+              ></textarea>
+            </mat-form-field>
+          </div>
+          <button
+            mat-flat-button
+            color="primary"
+            class="submit-review-btn"
+            (click)="reviewJob()"
+            [disabled]="!commentControl.valid || !userRating() || reviewSubmitting()"
+          >
+            @if (reviewSubmitting()) {
+              {{ 'COMMON.LOADING' | translate }}
+            } @else {
+              {{ 'JOB_DETAIL.SUBMIT_REVIEW' | translate }}
             }
           </button>
         </div>

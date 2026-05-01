@@ -19,7 +19,7 @@
         } @else {
           <div class="contracts-list">
             @for (contract of activeContracts(); track contract.id) {
-              <div class="contract-item">
+              <div class="contract-item" [routerLink]="'/app/job/' + contract.id">
                 <div class="contract-header">
                   <div class="contract-title-row">
                     <span class="contract-title">{{ contract.title }}</span>
@@ -61,7 +61,7 @@
         } @else {
           <div class="contracts-list">
             @for (contract of historyContracts(); track contract.id) {
-              <div class="contract-item">
+              <div class="contract-item" [routerLink]="'/app/job/' + contract.id">
                 <div class="contract-header">
                   <div class="contract-title-row">
                     <span class="contract-title">{{ contract.title }}</span>

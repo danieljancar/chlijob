@@ -44,6 +44,10 @@
     "CANCEL": "Abbrechen",
     "LOADING": "Wird geladen…"
   },
+  "DIALOG": {
+    "CONFIRM_TITLE": "Bist du sicher?",
+    "CONFIRM": "Bestätigen"
+  },
   "HOME": {
     "HERO_TITLE": "Kurze Jobs. Einfach finden.",
     "HERO_SUBTITLE": "Verbinde dich mit Menschen in deiner Nähe. Egal ob du kurze Jobs anbietest oder suchst.",
@@ -158,7 +162,17 @@
     "HOURS": "Geschätzte Stunden",
     "ADDRESS": "Adresse",
     "DATE": "Gewünschtes Datum",
-    "POSTED_BY": "Inseriert von"
+    "POSTED_BY": "Inseriert von",
+    "CONTACT": "Kontakt",
+    "CANCEL_JOB": "Job absagen",
+    "COMPLETE_JOB": "Job als erledigt markieren",
+    "REVIEW_JOB": "Job bewerten",
+    "LEAVE_REVIEW": "Bewertung hinterlassen",
+    "COMMENT": "Kommentar",
+    "COMMENT_PLACEHOLDER": "Wie war die Zusammenarbeit?",
+    "SUBMIT_REVIEW": "Bewertung absenden",
+    "CANCEL_CONFIRM": "Möchtest du diesen Job wirklich absagen?",
+    "COMPLETE_CONFIRM": "Möchtest du diesen Job wirklich als erledigt markieren?"
   },
   "SEARCH": {
     "TITLE": "Jobs suchen",
@@ -212,7 +226,12 @@
     "APPLY_ERROR": "Bewerbung fehlgeschlagen. Bitte versuche es erneut.",
     "APPLICATION_ACCEPTED": "Bewerber erfolgreich angenommen.",
     "APPLICATION_REJECTED": "Bewerber abgelehnt.",
-    "APPLICATION_ACTION_ERROR": "Fehler bei der Aktion. Bitte versuche es erneut."
+    "APPLICATION_ACTION_ERROR": "Fehler bei der Aktion. Bitte versuche es erneut.",
+    "CANCEL_JOB_SUCCESS": "Job erfolgreich abgesagt.",
+    "CANCEL_JOB_ERROR": "Fehler beim Absagen des Jobs. Bitte versuche es erneut.",
+    "COMPLETE_JOB_SUCCESS": "Job erfolgreich als erledigt markiert.",
+    "REVIEW_JOB_ERROR": "Fehler beim Bewerten des Jobs. Bitte versuche es erneut.",
+    "REVIEW_JOB_SUCCESS": "Vielen Dank für deine Bewertung!"
   },
   "AUTH_ERROR": {
     "INVALID_CREDENTIALS": "Ungültige E-Mail-Adresse oder falsches Passwort.",
