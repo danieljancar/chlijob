@@ -77,6 +77,9 @@
               "buildTarget": "web:build:development"
             }
           },
+          "options": {
+            "allowedHosts": ["chlijob.local"]
+          },
           "defaultConfiguration": "development"
         },
         "test": {
