@@ -25,6 +25,10 @@
   font-size: 28px;
   font-weight: 700;
   line-height: 1.2;
+
+  @media (max-width: 599px) {
+    font-size: 22px;
+  }
 }
 
 .subtitle {
@@ -43,6 +47,11 @@
   flex-direction: column;
   align-items: flex-end;
   gap: 4px;
+
+  @media (max-width: 599px) {
+    align-items: flex-start;
+    width: 100%;
+  }
 }
 
 .view-label {

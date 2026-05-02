@@ -5,13 +5,12 @@
 }
 
 .stats-row {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   gap: 12px;
-  flex-wrap: wrap;
 
-  app-stat-card {
-    flex: 1;
-    min-width: 160px;
+  @media (max-width: 599px) {
+    grid-template-columns: 1fr 1fr;
   }
 }
 
@@ -78,7 +77,7 @@
 
 .contracts-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
   gap: 16px;
 }
 
@@ -198,6 +197,10 @@
   &.last {
     border-bottom: none;
   }
+
+  @media (max-width: 599px) {
+    padding: 12px 16px;
+  }
 }
 
 .applicant-avatar {
@@ -241,6 +244,12 @@
   align-items: center;
   gap: 8px;
   flex-shrink: 0;
+
+  @media (max-width: 599px) {
+    flex-shrink: 1;
+    width: 100%;
+    justify-content: flex-end;
+  }
 }
 
 .app-date {

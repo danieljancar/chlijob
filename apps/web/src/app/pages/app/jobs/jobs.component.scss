@@ -52,12 +52,18 @@
 .panel-title {
   display: flex;
   align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
+  gap: 8px;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .contract-title {
   font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+  flex: 1;
 }
 
 .panel-desc {
@@ -96,7 +102,7 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 16px;
+  gap: 12px;
   padding: 8px 0;
   flex-wrap: wrap;
 }
@@ -123,6 +129,12 @@
   align-items: center;
   gap: 8px;
   flex-shrink: 0;
+
+  @media (max-width: 599px) {
+    flex-shrink: 1;
+    width: 100%;
+    justify-content: flex-end;
+  }
 }
 
 .reject-btn {

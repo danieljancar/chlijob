@@ -16,6 +16,10 @@
   background: var(--mat-sys-surface-container-low);
   border-radius: 16px;
   padding: 20px 24px;
+
+  @media (max-width: 599px) {
+    padding: 16px;
+  }
 }
 
 .section-title {
